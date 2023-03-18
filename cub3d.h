@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/16 12:35:45 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/18 20:01:26 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		ft_combine_rgb(int r, int g, int b);
 
 //ft_utlis
 int		ft_line_empty(char *line);
+char	*ft_strdup_up_to_space(const char *s);
 
 //check_map
 int		ft_check_valid_file(char *file);

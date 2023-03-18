@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 19:13:22 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/18 17:45:28 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/18 20:01:56 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_set_texture(char *line, char **var_texture, t_map *map)
 		i++;
 	if (*var_texture)
 		error_exit("ERROR:\nYou set a texture more than once\n", map);
-	*var_texture = ft_strdup(&line[i]);
+	*var_texture = ft_strdup_up_to_space(&line[i]);
 }
 
 void	ft_set_color(char *line, t_map *map)

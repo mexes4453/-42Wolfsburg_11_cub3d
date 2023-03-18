@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:22:59 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/16 12:31:41 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/18 19:51:15 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ void	ft_set_spawn(t_map *map, int x, int y)
 
 void	ft_parse_infos(char *line, t_map *map)
 {
-	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
+	if (line[0] == 'N' && line[1] == 'O')
 		ft_set_texture(line, &map->NO_texture, map);
-	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
+	else if (line[0] == 'E' && line[1] == 'A')
 		ft_set_texture(line, &map->EA_texture, map);
-	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
+	else if (line[0] == 'S' && line[1] == 'O')
 		ft_set_texture(line, &map->SO_texture, map);
-	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
+	else if (line[0] == 'W' && line[1] == 'E')
 		ft_set_texture(line, &map->WE_texture, map);
-	else if ((line[0] == 'F' || line[0] == 'C') && line[1] == ' ')
+	else if ((line[0] == 'F' || line[0] == 'C'))
 		ft_set_color(line, map);
 	else if (line[0] == '\n' || line[0] == '\0')
 		return ;

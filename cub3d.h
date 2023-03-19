@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/19 17:54:41 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/03/19 18:12:27 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,7 @@
 #  define RIGHT_KEY 65363
 #  define ESC_KEY 65307
 #  define X_BTN 33
-
 */
-# endif
-
-# define NORTH 1
-# define EAST 2
-# define SOUTH 3
-# define WEST 4
-
-# define PI 3.142
-
-# define IMG_SZ_X_WALL (20)
-# define IMG_SZ_Y_WALL (20)
-# define IMG_SZ_X_PLAYER (4)
-# define IMG_SZ_Y_PLAYER (4)
-# define BIT_SIZE_BYTE (8)
-# define TRUE_DESTROY (1)
-# define FALSE_DESTROY (0)
-# define WIN_TITLE_MAP ("cub3d_map")
-/* typedef struct s_mlx
-{
-
-}	t_mlx; */
 enum e_E_APP_EVENT{
 	ON_KEYDOWN = 2,
 	ON_KEYUP = 3,
@@ -84,6 +62,26 @@ enum e_KEYS
 	KEY_D = 100,
 	KEY_APP_CLOSE_ICON = -16777904L
 };
+# endif
+
+# define NORTH 1
+# define EAST 2
+# define SOUTH 3
+# define WEST 4
+
+# define PI 3.142
+
+# define IMG_SZ_X_WALL (50)
+# define IMG_SZ_Y_WALL (50)
+# define IMG_SZ_X_PLAYER (4)
+# define IMG_SZ_Y_PLAYER (4)
+# define BIT_SIZE_BYTE (8)
+# define TRUE_DESTROY (1)
+# define FALSE_DESTROY (0)
+# define WIN_TITLE_MAP ("cub3d_map")
+
+
+
 
 typedef struct s_map
 {

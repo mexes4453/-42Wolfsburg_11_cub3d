@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_player_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/19 17:58:49 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/03/19 18:09:06 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void ft_player_init(t_player *p, t_map *m)
 {
-    p->PosX = m->player_x * IMG_SZ_X_WALL / 2;
-    p->PosY = m->player_y * IMG_SZ_Y_WALL / 2;
+    p->PosX = (m->player_x * IMG_SZ_X_WALL) + (IMG_SZ_X_WALL / 2);
+    p->PosY = (m->player_y * IMG_SZ_Y_WALL) + (IMG_SZ_Y_WALL / 2);
     if (m->player_orientation == NORTH)
         p->heading_angle = PI * 0.5;
     else if(m->player_orientation == WEST)

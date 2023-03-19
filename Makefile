@@ -3,23 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
+#    By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/03/14 16:26:13 by fsemke           ###   ########.fr        #
+#    Updated: 2023/03/19 17:39:44 by cudoh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 OS := $(shell uname -s)
 ifeq ($(OS), Linux)
-	LIBS := -L ./mlx_linux -lmlx -lXext -lX11 -lm
-	MLX = mlx_linux/libmlx.a
+	LIBS := -L ./mlx_linux -lmlx -lXext  -lm -I./mlx_linux -L/usr/lib -lX11
 	MLX_DIR = mlx_linux
+	MLX = mlx_linux/libmlx.a
 endif
 ifeq ($(OS), Darwin)
 	LIBS := -L ./mlx_darwin -lmlx -framework OpenGL -framework Appkit
-	MLX = mlx_darwin/libmlx.a
 	MLX_DIR = mlx_darwin
+	MLX = mlx_darwin/libmlx.a
 endif
 
 
@@ -33,7 +33,12 @@ SRCS =	src/cub3d.c \
 		src/ft_utils.c \
 		src/parsing.c \
 		src/read_map.c \
-		src/set_map_info.c 
+		src/set_map_info.c  \
+		src/ft_app_close.c \
+		src/ft_img_create_color_img.c \
+		src/ft_app_var_init.c \
+		src/ft_app_display_map.c \
+		src/ft_player_init.c 
 
 OBJS = $(SRCS:.c=.o)
 

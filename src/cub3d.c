@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/16 12:28:15 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/19 17:55:29 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	ft_init_map_default(t_map *map)
 {
+    ft_memset((void *)map, 0, sizeof(t_map));
 	map->map = NULL;
-	map->map_size_x = 0;
-	map->map_size_y = 0;
 	map->NO_texture = NULL;
 	map->EA_texture = NULL;
 	map->SO_texture = NULL;
 	map->WE_texture = NULL;
-	map->floor_c = 0;
-	map->ceilling_c = 0;
 	map->player_x = -1;
 	map->player_y = -1;
 	map->player_orientation = -1;
@@ -58,7 +55,10 @@ void	ft_init(char **argv, t_map *map)
 
 int	main(int argc, char **argv)
 {
-	t_map	map;
+	t_map	    map;
+    t_app	    app;
+    t_img       *wall_img;
+    t_player    player;
 	//t_mlx	mlx;
 
 	if (argc != 2)
@@ -67,5 +67,31 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	ft_init(argv, &map);
-	ft_clean_parsing(&map);
+    app.map = &map;
+    ft_app_var_init(&app, app.map);
+    ft_player_init(&player, &map);
+    
+
+    // create player map
+    app.com = mlx_init();
+	app.win = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y, WIN_TITLE_MAP);
+	//app.win_map = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y/2, "Hello");
+	//ft_app_player_init(&app);
+    
+    /* Create player map */
+    wall_img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
+    player.img = ft_img_create_color_img(app.com, 0x00FF0000, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
+    app.img = wall_img;
+    //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
+    // loop
+    ft_app_display_map(&app, &map, "1", wall_img);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.PosX, player.PosY);
+    //mlx_put_image_to_window(app.com, app.win, wall_img->img_ref_ptr, IMG_SZ_X, IMG_SZ_Y);
+    // end loop
+
+    
+	//ft_app_render_imgs(&app);
+	//mlx_hook(app.win, ON_KEYDOWN, 1L, ft_app_key_handler, &app);
+	mlx_hook(app.win, ON_DESTROY, 1L, ft_app_close, &app);
+	mlx_loop(app.com);
 }

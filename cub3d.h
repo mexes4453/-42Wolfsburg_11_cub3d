@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/18 20:01:26 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/19 17:54:41 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdint.h>
 # include "libft/libft.h"
 
 # ifdef __APPLE__
@@ -32,6 +33,7 @@
 
 # elif defined __unix__
 #  include "mlx_linux/mlx.h"
+/*
 #  define A_KEY 97
 #  define W_KEY 119
 #  define S_KEY 115
@@ -40,6 +42,8 @@
 #  define RIGHT_KEY 65363
 #  define ESC_KEY 65307
 #  define X_BTN 33
+
+*/
 # endif
 
 # define NORTH 1
@@ -47,10 +51,39 @@
 # define SOUTH 3
 # define WEST 4
 
+# define PI 3.142
+
+# define IMG_SZ_X_WALL (20)
+# define IMG_SZ_Y_WALL (20)
+# define IMG_SZ_X_PLAYER (4)
+# define IMG_SZ_Y_PLAYER (4)
+# define BIT_SIZE_BYTE (8)
+# define TRUE_DESTROY (1)
+# define FALSE_DESTROY (0)
+# define WIN_TITLE_MAP ("cub3d_map")
 /* typedef struct s_mlx
 {
 
 }	t_mlx; */
+enum e_E_APP_EVENT{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
+
+enum e_KEYS
+{
+	KEY_ESC = 65307,
+	KEY_W = 119,
+	KEY_A = 97,
+	KEY_S = 115,
+	KEY_D = 100,
+	KEY_APP_CLOSE_ICON = -16777904L
+};
 
 typedef struct s_map
 {
@@ -66,7 +99,50 @@ typedef struct s_map
 	int		player_x; //Default -1
 	int		player_y; //Default -1
 	int		player_orientation; //Default -1
+    int     idx_x; // used to iterate within map arrays
+    int     idx_y; // used to iterate over arrays store in map ptr
+    char    chr;    // stores the char read from the map array
 }	t_map;
+
+typedef struct s_img
+{
+	void	*img_ref_ptr;
+	char	*addr;
+	int		bits_per_pixel;
+	int		endian;
+	int		line_length;
+	int		sz_x;
+	int		sz_y;
+}			t_img;
+
+typedef struct s_player
+{
+	double		PosX;
+	double		PosY; 
+    double      heading_angle;
+	t_img	    *img;
+}			t_player;
+
+typedef struct s_app
+{
+	void		*win;
+	void		*com;
+	int			rc;
+	int			win_sz_x;
+	int			win_sz_y;
+	size_t		px;
+	size_t		py;
+	t_map		*map;
+	t_img		*img;
+ //   t_player	p;
+//	t_queue		*rq;
+//	t_queue		*cq;
+//	char		**matrix;
+//	int			t_r;
+//	int			t_c;
+//	int			p_r;
+//	int			p_c;
+}				t_app;
 
 
 //ft_split custom
@@ -109,4 +185,22 @@ char	*ft_strdup_up_to_space(const char *s);
 int		ft_check_valid_file(char *file);
 void	ft_check_errors(t_map *map);
 
+
+
+
+
+/**
+ * @brief 
+ * This function initialises the app variable to default value.
+ * It updates the application window size by using the map size 
+ * (x, y) and multiplying it with default pixel size 
+ * 
+ * @param a // pointer to app variable 
+ * @param m // pointer to map variable
+ */
+void	ft_app_var_init(t_app *a, t_map *m);
+int     ft_app_close(void *params);
+t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY);
+int     ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
+void    ft_player_init(t_player *p, t_map *m);
 #endif

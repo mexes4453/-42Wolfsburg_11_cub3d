@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/19 18:12:27 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/21 10:51:33 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ enum e_KEYS
 	KEY_A = 97,
 	KEY_S = 115,
 	KEY_D = 100,
+	KEY_LEFT = 65361,
+	KEY_RIGHT = 65363,
 	KEY_APP_CLOSE_ICON = -16777904L
 };
 # endif
@@ -69,7 +71,10 @@ enum e_KEYS
 # define SOUTH 3
 # define WEST 4
 
-# define PI 3.142
+# define PI 3.1415926
+
+# define ANGLE_SENSITIVITY 0.0003 //higher == faster
+# define MOVE_SPEED 0.01 //higher == faster
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
@@ -116,8 +121,16 @@ typedef struct s_img
 typedef struct s_player
 {
 	double		PosX;
-	double		PosY; 
+	double		PosY;
     double      heading_angle;
+	double		delta_x;
+	double		delta_y;
+	int			key_w;
+	int			key_a;
+	int			key_s;
+	int			key_d;
+	int			key_left;
+	int			key_right;
 	t_img	    *img;
 }			t_player;
 
@@ -132,6 +145,7 @@ typedef struct s_app
 	size_t		py;
 	t_map		*map;
 	t_img		*img;
+	t_player	*player;
  //   t_player	p;
 //	t_queue		*rq;
 //	t_queue		*cq;
@@ -201,4 +215,10 @@ int     ft_app_close(void *params);
 t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY);
 int     ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
 void    ft_player_init(t_player *p, t_map *m);
+int		ft_key_pressed(int key, t_app *a);
+int		ft_key_released(int key, t_player *p);
+int		ft_player_move(int key, t_app *a);
+int		ft_player_angle(int key, t_app *a);
+int		ft_loop_player(t_app *app);
+
 #endif

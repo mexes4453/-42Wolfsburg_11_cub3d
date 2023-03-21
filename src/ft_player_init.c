@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/21 10:47:24 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/21 11:30:45 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void ft_player_init(t_player *p, t_map *m)
 {
+    ft_memset((void *)p, 0, sizeof(t_player));
     p->PosX = (m->player_x * IMG_SZ_X_WALL) + (IMG_SZ_X_WALL / 2);
     p->PosY = (m->player_y * IMG_SZ_Y_WALL) + (IMG_SZ_Y_WALL / 2);
     if (m->player_orientation == NORTH)

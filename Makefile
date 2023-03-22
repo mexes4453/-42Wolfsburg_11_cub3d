@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+         #
+#    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/03/19 17:39:44 by cudoh            ###   ########.fr        #
+#    Updated: 2023/03/21 21:07:27 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRCS =	src/cub3d.c \
 		src/ft_img_create_color_img.c \
 		src/ft_app_var_init.c \
 		src/ft_app_display_map.c \
-		src/ft_player_init.c 
+		src/ft_player_init.c \
+		src/ft_draw_line.c
 
 OBJS = $(SRCS:.c=.o)
 

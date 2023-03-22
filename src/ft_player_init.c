@@ -6,18 +6,55 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/21 11:30:45 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/21 22:42:40 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 
-void ft_player_init(t_player *p, t_map *m)
+void ft_player_init(t_player *p, t_map *m, t_app *app)
 {
+    t_line img_line;
+    t_pos idx;
+    
+    idx = dir_pos;
+    
     ft_memset((void *)p, 0, sizeof(t_player));
-    p->PosX = (m->player_x * IMG_SZ_X_WALL) + (IMG_SZ_X_WALL / 2);
-    p->PosY = (m->player_y * IMG_SZ_Y_WALL) + (IMG_SZ_Y_WALL / 2);
+    p->Pos[origin][X] = (m->player_x * IMG_SZ_X_WALL) + (IMG_SZ_X_WALL / 2);
+    p->Pos[origin][Y] = (m->player_y * IMG_SZ_Y_WALL) + (IMG_SZ_Y_WALL / 2);
+    
+    // get the cordinate of other point with reference to the origin cordinate (player)
+    // direction vector
+    p->Pos[dir][X] = p->Pos[origin][X];
+    p->Pos[dir][Y] = p->Pos[origin][Y] - DIR_LENGTH;
+
+    // direct plane negative vector
+    p->Pos[dir_neg][X] = p->Pos[origin][X] + ((cos(((FOV / 2) + 90) * PI / 180.0)) * DIR_LENGTH);
+    p->Pos[dir_neg][Y] = p->Pos[dir][Y];
+
+    // direct plane positive vector
+    p->Pos[dir_pos][X] = p->Pos[origin][X] + cos((90 - (FOV / 2)) * PI / 180.0) * DIR_LENGTH;
+    p->Pos[dir_pos][Y] = p->Pos[dir][Y];
+    
+    // create player image
+	p->img = ft_img_create_color_img(app->com, 0x00FF0000, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
+
+    // draw lines
+    img_line.startPosX = p->Pos[origin][X];
+    img_line.startPosY = p->Pos[origin][Y];
+    while (idx < MaxPos)
+    {
+        img_line.endPosX = p->Pos[idx][X];
+        img_line.endPosY = p->Pos[idx][Y];
+        ft_draw_line(app->com, app->win, &img_line);
+        idx++;
+    }
+ 
+
+    
+    
+    
     if (m->player_orientation == NORTH)
         p->heading_angle = PI * 0.5;
     else if(m->player_orientation == WEST)
@@ -27,7 +64,7 @@ void ft_player_init(t_player *p, t_map *m)
     else if(m->player_orientation == EAST)
         p->heading_angle = 0;
 
-    p->img = NULL;
+    //p->img = NULL; why?
     p->delta_x = cos(p->heading_angle);
     p->delta_y = sin(p->heading_angle);
     /*
@@ -96,25 +133,25 @@ int ft_player_move(int key, t_app *a)
     (void)key;
     if (a->player->key_w)
     {
-        a->player->PosX += a->player->delta_x * MOVE_SPEED;
-        a->player->PosY -= a->player->delta_y * MOVE_SPEED;
+        a->player->Pos[origin][X] += a->player->delta_x * MOVE_SPEED;
+        a->player->Pos[origin][Y] -= a->player->delta_y * MOVE_SPEED;
     }
     if (a->player->key_a)
     {
-        a->player->PosX += cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-        a->player->PosY -= sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
+        a->player->Pos[origin][X] += cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
+        a->player->Pos[origin][Y] -= sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
     }
     if (a->player->key_s)
     {
-        a->player->PosX -= a->player->delta_x * MOVE_SPEED;
-        a->player->PosY += a->player->delta_y * MOVE_SPEED;
+        a->player->Pos[origin][X] -= a->player->delta_x * MOVE_SPEED;
+        a->player->Pos[origin][Y] += a->player->delta_y * MOVE_SPEED;
     }
     if (a->player->key_d)
     {
-        a->player->PosX -= cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-        a->player->PosY += sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
+        a->player->Pos[origin][X] -= cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
+        a->player->Pos[origin][Y] += sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
     }
-    mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->PosX, a->player->PosY);
+    mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[origin][X], a->player->Pos[origin][Y]);
     return (0);
 }
 

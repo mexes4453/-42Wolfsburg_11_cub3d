@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/21 10:51:33 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/21 20:47:56by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,13 @@ enum e_KEYS
 # define WEST 4
 
 # define PI 3.1415926
+# define X 0
+# define Y 1
 
+# define DIR_LENGTH 50
 # define ANGLE_SENSITIVITY 0.0003 //higher == faster
 # define MOVE_SPEED 0.01 //higher == faster
+# define FOV 90
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
@@ -118,11 +122,31 @@ typedef struct s_img
 	int		sz_y;
 }			t_img;
 
+
+typedef enum e_pos
+{
+	origin,
+	dir_pos,
+	dir_neg,
+	dir,
+	/*-----*/
+	MaxPos
+}	t_pos;
+
+
+typedef struct s_line
+{
+	int startPosX;
+	int startPosY;
+	int endPosX;
+	int endPosY;
+	int color;
+}	t_line;
+
 typedef struct s_player
 {
-	double		PosX;
-	double		PosY;
-    double      heading_angle;
+	double		Pos[4][2];
+	double		heading_angle;
 	double		delta_x;
 	double		delta_y;
 	int			key_w;
@@ -132,7 +156,14 @@ typedef struct s_player
 	int			key_left;
 	int			key_right;
 	t_img	    *img;
+	//t_img	    *img_dir;
+	/*
+	t_img	    *img_dir_neg;
+	t_img	    *
+	*/
 }			t_player;
+
+
 
 typedef struct s_app
 {
@@ -155,6 +186,8 @@ typedef struct s_app
 //	int			p_r;
 //	int			p_c;
 }				t_app;
+
+
 
 
 //ft_split custom
@@ -214,11 +247,12 @@ void	ft_app_var_init(t_app *a, t_map *m);
 int     ft_app_close(void *params);
 t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY);
 int     ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
-void    ft_player_init(t_player *p, t_map *m);
+void    ft_player_init(t_player *p, t_map *m, t_app *app);
 int		ft_key_pressed(int key, t_app *a);
 int		ft_key_released(int key, t_player *p);
 int		ft_player_move(int key, t_app *a);
 int		ft_player_angle(int key, t_app *a);
 int		ft_loop_player(t_app *app);
+void    ft_draw_line(void *mlx, void *win, t_line *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/20 21:04:39 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/21 22:43:01 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,32 @@ int	main(int argc, char **argv)
 	ft_init(argv, &map);
     app.map = &map;
     ft_app_var_init(&app, app.map);
-	app.player = &player;
-    ft_player_init(&player, &map);
     
 
     // create player map
     app.com = mlx_init();
 	app.win = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y, WIN_TITLE_MAP);
 	//app.win_map = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y/2, "Hello");
-	//ft_app_player_init(&app);
+
     
     /* Create player map */
     wall_img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
-    player.img = ft_img_create_color_img(app.com, 0x00FF0000, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
+
+	
     app.img = wall_img;
+	
+	//ft_app_player_init(&app);
+	ft_player_init(&player, &map, &app);
+	app.player = &player;
     //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
     // loop
     ft_app_display_map(&app, &map, "1", wall_img);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.PosX, player.PosY);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[origin][X], player.Pos[origin][Y]);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir][X], player.Pos[dir][Y]);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_neg][X], player.Pos[dir_neg][Y]);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_pos][X], player.Pos[dir_pos][Y]);
+
+
     //mlx_put_image_to_window(app.com, app.win, wall_img->img_ref_ptr, IMG_SZ_X, IMG_SZ_Y);
     // end loop
 

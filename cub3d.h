@@ -82,8 +82,8 @@ enum e_KEYS
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
-# define IMG_SZ_X_PLAYER (4)
-# define IMG_SZ_Y_PLAYER (4)
+# define IMG_SZ_X_PLAYER (1)
+# define IMG_SZ_Y_PLAYER (1)
 # define BIT_SIZE_BYTE (8)
 # define TRUE_DESTROY (1)
 # define FALSE_DESTROY (0)

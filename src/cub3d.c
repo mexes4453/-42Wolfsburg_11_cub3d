@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/21 22:43:01 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/22 16:42:33 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,10 @@ int	main(int argc, char **argv)
     //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
     // loop
     ft_app_display_map(&app, &map, "1", wall_img);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[origin][X], player.Pos[origin][Y]);
+    /* mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[origin][X], player.Pos[origin][Y]);
     mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir][X], player.Pos[dir][Y]);
     mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_neg][X], player.Pos[dir_neg][Y]);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_pos][X], player.Pos[dir_pos][Y]);
+    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_pos][X], player.Pos[dir_pos][Y]); */
 
 
     //mlx_put_image_to_window(app.com, app.win, wall_img->img_ref_ptr, IMG_SZ_X, IMG_SZ_Y);

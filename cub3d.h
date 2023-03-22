@@ -156,6 +156,7 @@ typedef struct s_player
 	int			key_left;
 	int			key_right;
 	t_img	    *img;
+	t_img	    *black_img;
 	//t_img	    *img_dir;
 	/*
 	t_img	    *img_dir_neg;

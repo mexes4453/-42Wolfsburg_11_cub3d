@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/22 20:34:02 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/22 22:12:13 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,27 +133,16 @@ int ft_player_move(int key, t_app *a)
     old[dir_neg][Y] = a->player->Pos[dir_neg][Y];
     old[dir_pos][X] = a->player->Pos[dir_pos][X];
     old[dir_pos][Y] = a->player->Pos[dir_pos][Y];
-    
+
+
     if (a->player->key_w)
-    {
-        a->player->Pos[origin][X] += a->player->delta_x * MOVE_SPEED;
-        a->player->Pos[origin][Y] -= a->player->delta_y * MOVE_SPEED;
-    }
+        ft_onKeyPress_W(a);
     if (a->player->key_a)
-    {
-        a->player->Pos[origin][X] += cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-        a->player->Pos[origin][Y] -= sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-    }
+        ft_onKeyPress_A(a);
     if (a->player->key_s)
-    {
-        a->player->Pos[origin][X] -= a->player->delta_x * MOVE_SPEED;
-        a->player->Pos[origin][Y] += a->player->delta_y * MOVE_SPEED;
-    }
+        ft_onKeyPress_S(a);
     if (a->player->key_d)
-    {
-        a->player->Pos[origin][X] -= cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-        a->player->Pos[origin][Y] += sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
-    }
+        ft_onKeyPress_D(a);
     
     
     //calculating new coordinates

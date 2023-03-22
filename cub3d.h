@@ -256,4 +256,9 @@ int		ft_player_angle(int key, t_app *a);
 int		ft_loop_player(t_app *app);
 void    ft_draw_line(void *mlx, void *win, t_line *line);
 
+void	ft_onKeyPress_W(t_app *a);
+void	ft_onKeyPress_A(t_app *a);
+void	ft_onKeyPress_S(t_app *a);
+void	ft_onKeyPress_D(t_app *a);
+
 #endif

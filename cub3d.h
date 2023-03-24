@@ -43,6 +43,8 @@
 #  define ESC_KEY 65307
 #  define X_BTN 33
 */
+#	define RAY_OFFSET_ANGLE  (25 * PI / 180)
+
 enum e_E_APP_EVENT{
 	ON_KEYDOWN = 2,
 	ON_KEYUP = 3,
@@ -178,6 +180,7 @@ typedef struct s_app
 	t_map		*map;
 	t_img		*img;
 	t_player	*player;
+	int			print_flag;
  //   t_player	p;
 //	t_queue		*rq;
 //	t_queue		*cq;
@@ -188,7 +191,22 @@ typedef struct s_app
 //	int			p_c;
 }				t_app;
 
-
+typedef struct s_ray
+{
+    double x;
+    double y;
+    double h;
+    double o;
+    double dx;
+    double dy;
+    double hyp_y;
+    double hyp_x;
+	double dir_x;
+	double dir_y;
+	int idx_x;
+	int idx_y;
+    
+}   t_ray;
 
 
 //ft_split custom
@@ -261,4 +279,9 @@ void	ft_onKeyPress_A(t_app *a);
 void	ft_onKeyPress_S(t_app *a);
 void	ft_onKeyPress_D(t_app *a);
 
+
+// ray casting
+//double ft_ray_get_dist_horz(double x, double y, double h, double o);
+void ft_ray_get_dist_horz(t_app *a, t_player *p, double o);
+double ft_ray_get_dist_vert(double x, double y, double h, double o);
 #endif

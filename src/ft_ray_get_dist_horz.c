@@ -6,83 +6,94 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 20:10:07 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/23 22:58:09 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/28 15:33:47 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-
-
-
-void ft_ray_get_dist_horz(t_app *a, t_player *p, double o)
+static void	ft_calc_point(t_app *a, double (*c)[2][2], t_cmp_lines *line,
+	int (*check)[3])
 {
-    t_ray ray;
-    t_line line = {0};
-
-
-    ray.dx = 0;
-    ray.dir_x = cos((p->heading_angle / 2) + o);
-/* 	if (a->print_flag)
+	while ((*check)[X] >= 0 && (*check)[X] < a->map->map_size_x
+		&& (*check)[Y] >= 0 && (*check)[Y] < a->map->map_size_y
+		&& a->map->map[(*check)[Y]][(*check)[X]] != '1')
 	{
-		printf("heading angle %f\n", p->heading_angle * 180 / PI);
-		a->print_flag = 0;
-	} */
-    if (ray.dir_x > 0 && (p->heading_angle <= PI/2 && p->heading_angle > 0 )) // ray first quadrant
-    {
-            
-        ray.dx = IMG_SZ_X_WALL - ((int)p->Pos[origin][X] % IMG_SZ_X_WALL);
-        //printf ("distance dx: horizontal to wall axis on right: %f \n", dx);
-        //printf ("distance x: horizontal to wall axis on right: %f \n", x);
-
-        //dir = y/dx; // not required only to subdue compiler complaint
-        // compute hypothenus side_y_distance;
-        ray.hyp_y = ray.dx / ray.dir_x;
-        ray.dy = ray.hyp_y * sin(p->heading_angle - o);
-        
-        line.startPosX = (int)p->Pos[origin][X];
-        line.startPosY = (int)p->Pos[origin][Y];
-
-        line.endPosX = (int)p->Pos[origin][X] + ray.dx;
-        line.endPosY = (int)p->Pos[origin][Y] - ray.dy;
-        line.color = 0x0000FF00;            // green color
-
-        ray.idx_x = line.endPosX / IMG_SZ_X_WALL;
-        ray.idx_y = line.endPosY / IMG_SZ_Y_WALL;
-        ft_draw_line(a->com, a->win, &line);
-/*
-
-        if (a->map->map[ray.idx_y][ray.idx_x] == '1')
-        {
-            ft_draw_line(a->com, a->win, &line);
-        }
-        else
-        {
-            ray.dx = IMG_SZ_X_WALL - (line.endPosX % IMG_SZ_X_WALL);
-            ray.hyp_y = ray.dx / ray.dir_x;
-            ray.dy = ray.hyp_y * sin(p->heading_angle - o);
-        }
-        }*/
-
-      
-    }
+		(*c)[s][Y] += (*c)[delta][Y];
+		(*c)[s][X] += (*c)[delta][X];
+		if ((*check)[VERSION] == 1)
+			(*check)[Y] = (int)(((a->player->Pos[origin][Y] + (*c)[s][Y]) / IMG_SZ_Y_WALL) - 1);
+		else
+			(*check)[Y] = (int)((a->player->Pos[origin][Y] + (*c)[s][Y]) / IMG_SZ_Y_WALL);
+		if ((*check)[VERSION] == 2)
+			(*check)[X] = (int)(((a->player->Pos[origin][X] + (*c)[s][X]) / IMG_SZ_X_WALL) - 1);
+		else
+			(*check)[X] = (int)((a->player->Pos[origin][X] + (*c)[s][X]) / IMG_SZ_X_WALL);
+	}
+	line->wall_x = (int)a->player->Pos[origin][X] + (*c)[s][X];
+	line->wall_y = (int)a->player->Pos[origin][Y] + (*c)[s][Y];
+	line->raylength = sqrt(pow((*c)[s][X], 2) + pow((*c)[s][Y], 2));
 }
 
-double ft_ray_get_dist_vert(double x, double y, double h, double o)
+void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *line)
 {
-    double dy;
-    double dir;
+	double	c[2][2];
+	double	angle;
+	int		check[3];
 
-    dy = 0;
-    dir = sin(h - o);
-    if (dir > 0 && (h <= PI/2 && h > 0 )) // ray in first quadrant
-    {
-        dy = ((int)y % IMG_SZ_X_WALL);
-        printf ("distance dy: horizontal to wall axis on right: %f \n", dy);
-        printf ("distance y: horizontal to wall axis on right: %f \n", y);
+	angle = p->heading_angle + offset;
+	if ((angle <= PI && angle > 0) || (angle >= 2 * PI && angle <= 3 * PI)) // ray in above quadrant
+	{
+		c[s][Y] = -fmod(p->Pos[origin][Y], IMG_SZ_Y_WALL);
+		c[s][X] = -c[s][Y] / tan(angle);
+		c[delta][Y] = -IMG_SZ_Y_WALL;
+		c[delta][X] = -c[delta][Y] / tan(angle);
+		check[X] = (int)((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL);
+		check[Y] = (int)(((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL) - 1);
+		check[VERSION] = 1;
+		ft_calc_point(a, &c, line, &check);
+	}
+	else //angle is looking down
+	{
+		angle -= PI;
+		c[s][Y] = IMG_SZ_Y_WALL - fmod(p->Pos[origin][Y], IMG_SZ_Y_WALL);
+		c[s][X] = -c[s][Y] / tan(angle);
+		c[delta][Y] = IMG_SZ_Y_WALL;
+		c[delta][X] = -c[delta][Y] / tan(angle);
+		check[X] = (int)((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL);
+		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
+		check[VERSION] = 0;
+		ft_calc_point(a, &c, line, &check);
+	}
+}
 
-        dir = x/dy;  // not required only to subdue compiler complaint
-        
-    }
-    return (dy);
+void	ft_ray_get_dist_vert(t_app *a, t_player *p, double off, t_cmp_lines *l)
+{
+	double	c[2][2];
+	double	angle;
+	int		check[3];
+
+	angle = p->heading_angle + off;
+	if (angle <= (3 * PI) / 2 && angle > PI / 2) // ray to the Left
+	{
+		c[s][X] = -fmod(p->Pos[origin][X], IMG_SZ_X_WALL);
+		c[s][Y] = c[s][X] * tan(PI - angle);
+		c[delta][X] = -IMG_SZ_X_WALL;
+		c[delta][Y] = c[delta][X] * tan(PI - angle);
+		check[X] = (int)(((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL) - 1);
+		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
+		check[VERSION] = 2;
+		ft_calc_point(a, &c, l, &check);
+	}
+	else //ray to the right
+	{
+		c[s][X] = IMG_SZ_X_WALL - fmod(p->Pos[origin][X], IMG_SZ_X_WALL);
+		c[s][Y] = -c[s][X] * tan(angle);
+		c[delta][X] = IMG_SZ_X_WALL;
+		c[delta][Y] = -c[delta][X] * tan(angle);
+		check[X] = (int)((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL);
+		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
+		check[VERSION] = 0;
+		ft_calc_point(a, &c, l, &check);
+	}
 }

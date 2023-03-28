@@ -1,9 +1,7 @@
-
-
-NO ./textures/test
-SO./textures/test      
-WE ./textures/test
-EA ./textures/test
+NO /home/florian/coding/my_cub3d_git/textures/test
+SO /home/florian/coding/my_cub3d_git/textures/test      
+WE /home/florian/coding/my_cub3d_git/textures/test
+EA /home/florian/coding/my_cub3d_git/textures/test
 
 
 

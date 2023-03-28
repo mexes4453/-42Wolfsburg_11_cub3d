@@ -76,11 +76,12 @@ enum e_KEYS
 # define PI 3.1415926
 # define X 0
 # define Y 1
+# define VERSION 2 //to calculate Raylines
 
 # define DIR_LENGTH 50
 # define ANGLE_SENSITIVITY 0.0003 //higher == faster
 # define MOVE_SPEED 0.01 //higher == faster
-# define FOV 90
+# define FOV 90 //in degree
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
@@ -179,6 +180,7 @@ typedef struct s_app
 	size_t		py;
 	t_map		*map;
 	t_img		*img;
+	t_img		*black_backgroud;
 	t_player	*player;
 	int			print_flag;
  //   t_player	p;
@@ -191,7 +193,7 @@ typedef struct s_app
 //	int			p_c;
 }				t_app;
 
-typedef struct s_ray
+/* typedef struct s_ray
 {
     double x;
     double y;
@@ -206,8 +208,20 @@ typedef struct s_ray
 	int idx_x;
 	int idx_y;
     
-}   t_ray;
+}   t_ray; */
 
+typedef struct s_cmp_lines
+{
+	double	raylength;
+	int		wall_x;
+	int		wall_y;
+}	t_cmp_lines;
+
+typedef enum e_coord
+{
+	s,
+	delta,
+}	t_coord;
 
 //ft_split custom
 char	**ft_split_custom(const char *s, char c);
@@ -281,7 +295,6 @@ void	ft_onKeyPress_D(t_app *a);
 
 
 // ray casting
-//double ft_ray_get_dist_horz(double x, double y, double h, double o);
-void ft_ray_get_dist_horz(t_app *a, t_player *p, double o);
-double ft_ray_get_dist_vert(double x, double y, double h, double o);
+void    ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *line);
+void	ft_ray_get_dist_vert(t_app *a, t_player *p, double offset, t_cmp_lines *line);
 #endif

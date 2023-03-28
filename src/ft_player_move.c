@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_player_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:05:49 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/28 19:11:19 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/28 21:23:132 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int ft_player_move(int key, t_app *a)
 	(void)key;
 	int old[MaxPos][2];
 	int i;
-	
+
 	i = 0;
 	while (i < MaxPos)
 	{
@@ -36,88 +36,102 @@ int ft_player_move(int key, t_app *a)
 	if (a->player->key_d)
 		ft_onKeyPress_D(a);
 
-	//calculating new coordinates
-	a->player->Pos[dir][X] = a->player->Pos[origin][X] + (a->player->delta_x * DIR_LENGTH);
-	a->player->Pos[dir][Y] = a->player->Pos[origin][Y] - (a->player->delta_y * DIR_LENGTH);
-	a->player->Pos[dir_neg][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle + ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
-	a->player->Pos[dir_neg][Y] = a->player->Pos[origin][Y] - (sin(a->player->heading_angle + ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
-	a->player->Pos[dir_pos][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle - ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
-	a->player->Pos[dir_pos][Y] = a->player->Pos[origin][Y] - (sin(a->player->heading_angle - ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
-	
-	//override old line with black
-	t_line  img_line;
-	t_pos   idx;
-	img_line.color = 0x00000000;
-	idx = dir_pos;
-	img_line.startPosX = old[origin][X];
-	img_line.startPosY = old[origin][Y];
-	while (idx < MaxPos)
+	if  (a->print_flag == 1)
 	{
-		img_line.endPosX = old[idx][X];
-		img_line.endPosY = old[idx][Y];
-		if (img_line.endPosX != -1 && img_line.endPosY != -1)//dont run at first execution
+		//overwrite everything
+		mlx_put_image_to_window(a->com, a->win, a->black_backgroud->img_ref_ptr, 0, 0);
+		ft_app_display_map(a, a->map, "1", a->img);
+		
+		//calculating new coordinates
+		a->player->Pos[dir][X] = a->player->Pos[origin][X] + (a->player->delta_x * DIR_LENGTH);
+		a->player->Pos[dir][Y] = a->player->Pos[origin][Y] - (a->player->delta_y * DIR_LENGTH);
+		a->player->Pos[dir_neg][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle + ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
+		a->player->Pos[dir_neg][Y] = a->player->Pos[origin][Y] - (sin(a->player->heading_angle + ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
+		a->player->Pos[dir_pos][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle - ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
+		a->player->Pos[dir_pos][Y] = a->player->Pos[origin][Y] - (sin(a->player->heading_angle - ((FOV / 2) * PI / 180.0)) * DIR_LENGTH);
+		
+		//override old line with black
+		
+		t_line  img_line;
+		t_pos   idx;
+		img_line.color = 0x00000000;
+		idx = dir_pos;
+		img_line.startPosX = old[origin][X];
+		img_line.startPosY = old[origin][Y];
+		while (idx < MaxPos)
+		{
+			img_line.endPosX = old[idx][X];
+			img_line.endPosY = old[idx][Y];
+			if (img_line.endPosX != -1 && img_line.endPosY != -1)//dont run at first execution
+				ft_draw_line(a->com, a->win, &img_line);
+			idx++;
+		}
+		
+		//draw new lines
+		idx = dir_pos;
+		img_line.color = 0x00FF0000;
+		img_line.startPosX = a->player->Pos[origin][X];
+		img_line.startPosY = a->player->Pos[origin][Y];
+		while (idx < MaxPos)
+		{
+			img_line.endPosX = a->player->Pos[idx][X];
+			img_line.endPosY = a->player->Pos[idx][Y];
 			ft_draw_line(a->com, a->win, &img_line);
-		idx++;
-	}
-	
-	//draw new lines
-	idx = dir_pos;
-	img_line.color = 0x00FF0000;
-	img_line.startPosX = a->player->Pos[origin][X];
-	img_line.startPosY = a->player->Pos[origin][Y];
-	while (idx < MaxPos)
-	{
-		img_line.endPosX = a->player->Pos[idx][X];
-		img_line.endPosY = a->player->Pos[idx][Y];
-		ft_draw_line(a->com, a->win, &img_line);
-		idx++;
-	}
+			idx++;
+		}
+		
+		
+		//print new positions
+		(void)old;
+		if (old[dir][X] != -1)//dont run at first execution
+		{
+			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[origin][X], old[origin][Y]); //print black img
+			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir][X], old[dir][Y]); //black
+			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_neg][X], old[dir_neg][Y]); //black
+			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_pos][X], old[dir_pos][Y]); //black
+		}
+		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[origin][X], a->player->Pos[origin][Y]);
+		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir][X], a->player->Pos[dir][Y]);
+		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_neg][X], a->player->Pos[dir_neg][Y]);
+		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_pos][X], a->player->Pos[dir_pos][Y]);
+		
 
-	//drawRays
-	
-
-	
-	
-	//print new positions
-	(void)old;
-	if (old[dir][X] != -1)//dont run at first execution
-	{
-		mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[origin][X], old[origin][Y]); //print black img
-		mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir][X], old[dir][Y]); //black
-		mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_neg][X], old[dir_neg][Y]); //black
-		mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_pos][X], old[dir_pos][Y]); //black
+		// cast ray
+		// compute  (FOV / (FOV/SCR_WIDTH) / RAY_LINE_PX_WIDTH) + 1
+		
+		t_cmp_lines horz;
+		t_cmp_lines vert;
+		double offsetangle = (FOV / 2) * PI / 180;
+		double increment =  ((double)FOV / (double)SCR_WIDTH_PX) * (PI / 180) * RAY_LINE_PX_WIDTH;
+		//int i = 0;
+		while (offsetangle >  (-FOV / 2) * PI / 180)
+		{
+			ft_ray_get_dist_horz(a, a->player, offsetangle, &horz);
+			ft_ray_get_dist_vert(a, a->player, offsetangle, &vert);
+			t_line line;
+			line.startPosX = (int)a->player->Pos[origin][X];
+			line.startPosY = (int)a->player->Pos[origin][Y];
+			line.color = 0x0000FF00;
+			if (horz.raylength < vert.raylength)
+			{
+				line.endPosX = horz.wall_x;
+				line.endPosY = horz.wall_y;
+				ft_save_ray_length(a, horz.raylength);
+			}
+			else
+			{
+				line.endPosX = vert.wall_x;
+				line.endPosY = vert.wall_y;
+				ft_save_ray_length(a, vert.raylength);
+			}
+			ft_draw_line(a->com, a->win, &line);
+			offsetangle -=increment;
+			//++i;
+		}
+		//ft_printf("Amount of Raylines: %d", i);
+		//i = 0;
+		a->print_flag = 0;
 	}
-	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[origin][X], a->player->Pos[origin][Y]);
-	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir][X], a->player->Pos[dir][Y]);
-	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_neg][X], a->player->Pos[dir_neg][Y]);
-	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_pos][X], a->player->Pos[dir_pos][Y]);
-	
-
-	// cast ray
-	
-	t_cmp_lines horz;
-	t_cmp_lines vert;
-	double offsetangle = (FOV / 2) * PI / 180;
-	//double increment = FOV / resolution
-
-	ft_ray_get_dist_horz(a, a->player, offsetangle, &horz);
-	ft_ray_get_dist_vert(a, a->player, offsetangle, &vert);
-	t_line line;
-	line.startPosX = (int)a->player->Pos[origin][X];
-	line.startPosY = (int)a->player->Pos[origin][Y];
-	line.color = 0x0000FF00;
-	if (horz.raylength < vert.raylength)
-	{
-		line.endPosX = horz.wall_x;
-		line.endPosY = horz.wall_y;
-	}
-	else
-	{
-		line.endPosX = vert.wall_x;
-		line.endPosY = vert.wall_y;
-	}
-	ft_draw_line(a->com, a->win, &line);
-  
 	return (0);
 }
 
@@ -147,11 +161,8 @@ int ft_player_angle(int key, t_app *a)
 
 int ft_loop_player(t_app *app)
 {
-	//overwrite everything 
-	mlx_put_image_to_window(app->com, app->win, app->black_backgroud->img_ref_ptr, 0, 0);
-	ft_app_display_map(app, app->map, "1", app->img);
-
 	ft_player_angle(0, app);
 	ft_player_move(0, app);
+	//ft_calc_wall(a, horz.raylength);// Need to create
 	return (0);
 }

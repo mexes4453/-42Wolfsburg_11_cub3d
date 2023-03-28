@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 22:10:08 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/22 22:10:11 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/28 19:44:55 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,5 @@ void ft_onKeyPress_D(t_app *a)
         a->player->Pos[origin][X] -= cos(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
     if (a->map->map[a->map->idx_y][(int)(a->player->Pos[origin][X] / IMG_SZ_X_WALL)] != '1')
         a->player->Pos[origin][Y] += sin(a->player->heading_angle + (PI / 2)) * MOVE_SPEED;
+    a->print_flag = 1;
 }

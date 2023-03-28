@@ -43,7 +43,7 @@
 #  define ESC_KEY 65307
 #  define X_BTN 33
 */
-#	define RAY_OFFSET_ANGLE  (25 * PI / 180)
+
 
 enum e_E_APP_EVENT{
 	ON_KEYDOWN = 2,
@@ -79,9 +79,14 @@ enum e_KEYS
 # define VERSION 2 //to calculate Raylines
 
 # define DIR_LENGTH 50
-# define ANGLE_SENSITIVITY 0.0003 //higher == faster
-# define MOVE_SPEED 0.01 //higher == faster
+# define ANGLE_SENSITIVITY 0.003 //higher == faster
+# define MOVE_SPEED 0.1 //higher == faster
 # define FOV 90 //in degree
+# define SCR_WIDTH_PX 900
+# define SCR_HEIGHT_PX 600
+//# define RAY_OFFSET_ANGLE  ((FOV / SCR_WIDTH_PX) * PI / 180.0f) // converted to radians
+//# define RAY_OFFSET_ANGLE  ((2) * PI / 180.0f) // converted to radians
+# define RAY_LINE_PX_WIDTH 5
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
@@ -91,6 +96,7 @@ enum e_KEYS
 # define TRUE_DESTROY (1)
 # define FALSE_DESTROY (0)
 # define WIN_TITLE_MAP ("cub3d_map")
+# define WIN_TITLE_WORLD ("cub3d_world")
 
 
 
@@ -160,6 +166,7 @@ typedef struct s_player
 	int			key_right;
 	t_img	    *img;
 	t_img	    *black_img;
+
 	//t_img	    *img_dir;
 	/*
 	t_img	    *img_dir_neg;
@@ -172,6 +179,7 @@ typedef struct s_player
 typedef struct s_app
 {
 	void		*win;
+	void		*win_world;
 	void		*com;
 	int			rc;
 	int			win_sz_x;
@@ -183,6 +191,8 @@ typedef struct s_app
 	t_img		*black_backgroud;
 	t_player	*player;
 	int			print_flag;
+	double 		*raylengths;
+	int			nbr_of_rays;
  //   t_player	p;
 //	t_queue		*rq;
 //	t_queue		*cq;
@@ -192,23 +202,6 @@ typedef struct s_app
 //	int			p_r;
 //	int			p_c;
 }				t_app;
-
-/* typedef struct s_ray
-{
-    double x;
-    double y;
-    double h;
-    double o;
-    double dx;
-    double dy;
-    double hyp_y;
-    double hyp_x;
-	double dir_x;
-	double dir_y;
-	int idx_x;
-	int idx_y;
-    
-}   t_ray; */
 
 typedef struct s_cmp_lines
 {
@@ -297,4 +290,6 @@ void	ft_onKeyPress_D(t_app *a);
 // ray casting
 void    ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *line);
 void	ft_ray_get_dist_vert(t_app *a, t_player *p, double offset, t_cmp_lines *line);
+
+void	ft_save_ray_length(t_app *a, double distance);
 #endif

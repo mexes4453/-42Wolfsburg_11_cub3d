@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/27 16:26:09 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/03/28 21:04:335 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,15 @@ int	main(int argc, char **argv)
     // create player map
     app.com = mlx_init();
 	app.win = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y, WIN_TITLE_MAP);
-	//app.win_map = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y/2, "Hello");
+	app.win_world = mlx_new_window(app.com, SCR_WIDTH_PX, SCR_HEIGHT_PX, WIN_TITLE_WORLD);
+	t_line perspective_line;
+	perspective_line.startPosX = 0;
+	perspective_line.startPosY = SCR_HEIGHT_PX / 2;
+	perspective_line.endPosX = SCR_WIDTH_PX;
+	perspective_line.endPosY = SCR_HEIGHT_PX / 2;
+	perspective_line.color = 0x00FFFF00;
+	ft_draw_line(app.com, app.win_world, &perspective_line);
 
-    
     /* Create player map */
     wall_img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
 

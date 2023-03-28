@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
+#    By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/03/23 21:01:47 by fsemke           ###   ########.fr        #
+#    Updated: 2023/03/28 22:12:35 by cudoh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,8 @@ SRCS =	src/cub3d.c \
 		src/ft_onKeyPress_D.c \
 		src/ft_player_move.c \
 		src/ft_key.c \
-		src/ft_ray_get_dist_horz.c \
-		#src/ft_ray_get_dist_vert.c
+		src/ft_ray_get_dist.c \
+		src/ft_save_ray_length.c
 
 OBJS = $(SRCS:.c=.o)
 

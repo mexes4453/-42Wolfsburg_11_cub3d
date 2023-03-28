@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_app_close.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 16:11:23 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/19 16:18:41 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/03/28 2040:06 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_app_close(void *params)
 	//mlx_destroy_image(a->com, (a->p.p_img.img));
 	mlx_destroy_image(a->com, (a->img->img_ref_ptr));
 	mlx_destroy_window(a->com, a->win);
+	mlx_destroy_window(a->com, a->win_world);
 	//ft_app_free_gmap(a->map);
     ft_clean_parsing(a->map);
     

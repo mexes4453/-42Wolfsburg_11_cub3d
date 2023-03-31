@@ -42,6 +42,8 @@ int ft_player_move(int key, t_app *a)
 		mlx_put_image_to_window(a->com, a->win, a->black_backgroud->img_ref_ptr, 0, 0);
 		ft_app_display_map(a, a->map, "1", a->img);
 		
+		a->px = 0;
+		a->py = 0;
 		//calculating new coordinates
 		a->player->Pos[dir][X] = a->player->Pos[origin][X] + (a->player->delta_x * DIR_LENGTH);
 		a->player->Pos[dir][Y] = a->player->Pos[origin][Y] - (a->player->delta_y * DIR_LENGTH);
@@ -101,10 +103,14 @@ int ft_player_move(int key, t_app *a)
 		
 		t_cmp_lines horz;
 		t_cmp_lines vert;
-		double offsetangle = (FOV / 2) * PI / 180;
-		double increment =  ((double)FOV / (double)SCR_WIDTH_PX) * (PI / 180) * RAY_LINE_PX_WIDTH;
+/* 		t_img *big_img;
+		
+		big_img = mlx_new_image(a->com, SCR_WIDTH_PX, SCR_HEIGHT_PX); */
+
+		double offsetangle = (FOV / 2) * RADIENT;
+		double increment =  ((double)FOV / (double)SCR_WIDTH_PX) * RADIENT * RAY_LINE_PX_WIDTH;
 		//int i = 0;
-		while (offsetangle >  (-FOV / 2) * PI / 180)
+		while (offsetangle >  (-FOV / 2) * RADIENT)
 		{
 			ft_ray_get_dist_horz(a, a->player, offsetangle, &horz);
 			ft_ray_get_dist_vert(a, a->player, offsetangle, &vert);
@@ -116,13 +122,15 @@ int ft_player_move(int key, t_app *a)
 			{
 				line.endPosX = horz.wall_x;
 				line.endPosY = horz.wall_y;
-				ft_save_ray_length(a, horz.raylength);
+				//ft_save_ray_length(a, horz.raylength);
+				ft_render_wall(a, &horz);
 			}
 			else
 			{
 				line.endPosX = vert.wall_x;
 				line.endPosY = vert.wall_y;
-				ft_save_ray_length(a, vert.raylength);
+				//ft_save_ray_length(a, vert.raylength);
+				ft_render_wall(a, &vert);
 			}
 			ft_draw_line(a->com, a->win, &line);
 			offsetangle -=increment;

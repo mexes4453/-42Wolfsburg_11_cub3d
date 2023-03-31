@@ -74,13 +74,14 @@ enum e_KEYS
 # define WEST 4
 
 # define PI 3.1415926
+# define RADIENT 0.01745329 //Multiply with degree = value in radient
 # define X 0
 # define Y 1
 # define VERSION 2 //to calculate Raylines
 
 # define DIR_LENGTH 50
-# define ANGLE_SENSITIVITY 0.003 //higher == faster
-# define MOVE_SPEED 0.1 //higher == faster
+# define ANGLE_SENSITIVITY 0.03 //higher == faster
+# define MOVE_SPEED 0.6 //higher == faster
 # define FOV 90 //in degree
 # define SCR_WIDTH_PX 900
 # define SCR_HEIGHT_PX 600
@@ -182,7 +183,7 @@ typedef struct s_app
 	void		*win_world;
 	void		*com;
 	int			rc;
-	int			win_sz_x;
+	int			win_sz_x; //Map
 	int			win_sz_y;
 	size_t		px;
 	size_t		py;
@@ -193,6 +194,7 @@ typedef struct s_app
 	int			print_flag;
 	double 		*raylengths;
 	int			nbr_of_rays;
+	t_img		*wall;
  //   t_player	p;
 //	t_queue		*rq;
 //	t_queue		*cq;
@@ -206,6 +208,7 @@ typedef struct s_app
 typedef struct s_cmp_lines
 {
 	double	raylength;
+	int		orientation;
 	int		wall_x;
 	int		wall_y;
 }	t_cmp_lines;
@@ -292,4 +295,5 @@ void    ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *
 void	ft_ray_get_dist_vert(t_app *a, t_player *p, double offset, t_cmp_lines *line);
 
 void	ft_save_ray_length(t_app *a, double distance);
+void ft_render_wall(t_app *a, t_cmp_lines *l);
 #endif

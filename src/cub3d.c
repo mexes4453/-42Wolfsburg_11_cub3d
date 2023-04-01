@@ -108,9 +108,9 @@ int	main(int argc, char **argv)
     
 	//ft_app_render_imgs(&app);
 	//mlx_hook(app.win, ON_KEYDOWN, 1L, ft_app_key_handler, &app);
-	mlx_hook(app.win, ON_DESTROY, 1L, ft_app_close, &app);
-	mlx_hook(app.win, ON_KEYDOWN, 1, ft_key_pressed, &app);
-	mlx_hook(app.win, ON_KEYUP, 2, ft_key_released, &player);
+	mlx_hook(app.win_world, ON_DESTROY, 1L, ft_app_close, &app);
+	mlx_hook(app.win_world, ON_KEYDOWN, 1, ft_key_pressed, &app);
+	mlx_hook(app.win_world, ON_KEYUP, 2, ft_key_released, &player);
 	mlx_loop_hook(app.com, ft_loop_player, &app);
 	mlx_loop(app.com);
 }

@@ -82,15 +82,15 @@ enum e_KEYS
 # define DIR_LENGTH 50
 # define ANGLE_SENSITIVITY 0.03 //higher == faster
 # define MOVE_SPEED 0.6 //higher == faster
-# define FOV 90 //in degree
-# define SCR_WIDTH_PX 900
+# define FOV 66 //in degree
+# define SCR_WIDTH_PX 800
 # define SCR_HEIGHT_PX 600
 //# define RAY_OFFSET_ANGLE  ((FOV / SCR_WIDTH_PX) * PI / 180.0f) // converted to radians
 //# define RAY_OFFSET_ANGLE  ((2) * PI / 180.0f) // converted to radians
-# define RAY_LINE_PX_WIDTH 5
+# define RAY_LINE_PX_WIDTH 5 //doesn't need anymore, because RayLine == SCR_WIDTH
 
-# define IMG_SZ_X_WALL (50)
-# define IMG_SZ_Y_WALL (50)
+# define IMG_SZ_X_WALL (64)
+# define IMG_SZ_Y_WALL (64)
 # define IMG_SZ_X_PLAYER (1)
 # define IMG_SZ_Y_PLAYER (1)
 # define BIT_SIZE_BYTE (8)
@@ -150,6 +150,7 @@ typedef struct s_line
 	int startPosY;
 	int endPosX;
 	int endPosY;
+	double	raylength;
 	int color;
 }	t_line;
 
@@ -189,6 +190,7 @@ typedef struct s_app
 	size_t		py;
 	t_map		*map;
 	t_img		*img;
+	t_img		*main_img;
 	t_img		*black_backgroud;
 	t_player	*player;
 	int			print_flag;
@@ -208,6 +210,7 @@ typedef struct s_app
 typedef struct s_cmp_lines
 {
 	double	raylength;
+	double	perpWallDist;
 	int		orientation;
 	int		wall_x;
 	int		wall_y;
@@ -295,5 +298,7 @@ void    ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *
 void	ft_ray_get_dist_vert(t_app *a, t_player *p, double offset, t_cmp_lines *line);
 
 void	ft_save_ray_length(t_app *a, double distance);
-void ft_render_wall(t_app *a, t_cmp_lines *l);
+void	ft_render_wall(t_app *a, t_cmp_lines *l);
+void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);
+void	ft_img_fill_floor_ceilling(t_img *img, uint32_t ceilling_c, uint32_t floor_c);
 #endif

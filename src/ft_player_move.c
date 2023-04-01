@@ -103,14 +103,23 @@ int ft_player_move(int key, t_app *a)
 		
 		t_cmp_lines horz;
 		t_cmp_lines vert;
-/* 		t_img *big_img;
+		t_img	*tmp;
 		
-		big_img = mlx_new_image(a->com, SCR_WIDTH_PX, SCR_HEIGHT_PX); */
+		//Create main img
+		tmp = ft_calloc(1, sizeof(t_img));
+		tmp->sz_x = SCR_WIDTH_PX;
+		tmp->sz_y = SCR_HEIGHT_PX;
+		tmp->img_ref_ptr = mlx_new_image(a->com, SCR_WIDTH_PX, SCR_HEIGHT_PX);
+		tmp->addr = mlx_get_data_addr(tmp->img_ref_ptr, &(tmp->bits_per_pixel), &(tmp->line_length), &(tmp->endian));
 
-		double offsetangle = (FOV / 2) * RADIENT;
-		double increment =  ((double)FOV / (double)SCR_WIDTH_PX) * RADIENT * RAY_LINE_PX_WIDTH;
-		//int i = 0;
-		while (offsetangle >  (-FOV / 2) * RADIENT)
+		ft_img_fill_floor_ceilling(tmp, a->map->ceilling_c, a->map->floor_c);
+		a->main_img = tmp;
+
+		double offsetangle = ((double)FOV / 2.0) * RADIENT;
+		double increment = ((double)FOV / (double)SCR_WIDTH_PX) * RADIENT;
+		int i = 0;
+		//while (offsetangle >  (-FOV / 2.0) * RADIENT)
+		while (i < SCR_WIDTH_PX)
 		{
 			ft_ray_get_dist_horz(a, a->player, offsetangle, &horz);
 			ft_ray_get_dist_vert(a, a->player, offsetangle, &vert);
@@ -122,6 +131,7 @@ int ft_player_move(int key, t_app *a)
 			{
 				line.endPosX = horz.wall_x;
 				line.endPosY = horz.wall_y;
+				line.raylength = horz.raylength;
 				//ft_save_ray_length(a, horz.raylength);
 				ft_render_wall(a, &horz);
 			}
@@ -129,15 +139,23 @@ int ft_player_move(int key, t_app *a)
 			{
 				line.endPosX = vert.wall_x;
 				line.endPosY = vert.wall_y;
+				line.raylength = vert.raylength;
 				//ft_save_ray_length(a, vert.raylength);
 				ft_render_wall(a, &vert);
 			}
 			ft_draw_line(a->com, a->win, &line);
-			offsetangle -=increment;
-			//++i;
+			//printf("raylength (%f), perpendicular dist(%f)\n", line.raylength, line.raylength * cos(offsetangle));
+			
+			//printf("offsetange %f\n", offsetangle * 180 / PI);
+			//printf("playerangle %f\n", (a->player->heading_angle) * 180 / PI);
+			offsetangle -= increment;
+			++i;
 		}
+		mlx_put_image_to_window(a->com, a->win_world, a->main_img->img_ref_ptr, 0, 0);
+		mlx_destroy_image(a->com, a->main_img->img_ref_ptr);
+		a->main_img = NULL;
 		//ft_printf("Amount of Raylines: %d", i);
-		//i = 0;
+		i = 0;
 		a->print_flag = 0;
 	}
 	return (0);
@@ -171,6 +189,33 @@ int ft_loop_player(t_app *app)
 {
 	ft_player_angle(0, app);
 	ft_player_move(0, app);
-	//ft_calc_wall(a, horz.raylength);// Need to create
 	return (0);
+}
+
+void	ft_img_fill_floor_ceilling(t_img *img, uint32_t ceilling_c, uint32_t floor_c)
+{
+	int	x;
+	int y;
+
+	y = 0;
+	while (y < img->sz_y / 2)
+	{
+		x = 0;
+		while (x < img->sz_x)
+		{
+			ft_app_pixel_put_on_img(img, x, y, ceilling_c);
+			++x;
+		}
+		++y;
+	}
+	while (y < img->sz_y)
+	{
+		x = 0;
+		while (x < img->sz_x)
+		{
+			ft_app_pixel_put_on_img(img, x, y, floor_c);
+			++x;
+		}
+		++y;
+	}
 }

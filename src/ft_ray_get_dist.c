@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ray_get_dist.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh<ccudohtudent.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 20:10:07 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/31 10:53:43 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/01 20:29:15 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *lin
 		check[Y] = (int)(((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL) - 1);
 		check[VERSION] = 1;
 		ft_calc_point(a, &c, line, &check);
+		line->perpWallDist = line->raylength * cos(offset);
+		//line->perpWallDist = line->raylength;
+
 	}
 	else //angle is looking down
 	{
@@ -66,6 +69,8 @@ void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *lin
 		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
 		check[VERSION] = 0;
 		ft_calc_point(a, &c, line, &check);
+		line->perpWallDist = line->raylength * cos(offset);
+		//line->perpWallDist = line->raylength;
 	}
 }
 
@@ -87,17 +92,22 @@ void	ft_ray_get_dist_vert(t_app *a, t_player *p, double off, t_cmp_lines *l)
 		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
 		check[VERSION] = 2;
 		ft_calc_point(a, &c, l, &check);
+		l->perpWallDist = l->raylength * cos(off);
+		
 	}
 	else //ray to the right
 	{
 		l->orientation = EAST;
 		c[s][X] = IMG_SZ_X_WALL - fmod(p->Pos[origin][X], IMG_SZ_X_WALL);
 		c[s][Y] = -c[s][X] * tan(angle);
-		c[delta][X] = IMG_SZ_X_WALL;
-		c[delta][Y] = -c[delta][X] * tan(angle);
-		check[X] = (int)((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL);
-		check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
-		check[VERSION] = 0;
-		ft_calc_point(a, &c, l, &check);
+			c[delta][X] = IMG_SZ_X_WALL;
+			c[delta][Y] = -c[delta][X] * tan(angle);
+			check[X] = (int)((p->Pos[origin][X] + c[s][X]) / IMG_SZ_X_WALL);
+			check[Y] = (int)((p->Pos[origin][Y] + c[s][Y]) / IMG_SZ_Y_WALL);
+			check[VERSION] = 0;
+			ft_calc_point(a, &c, l, &check);
+			l->perpWallDist = l->raylength * cos(off);
+			//l->perpWallDist = l->raylength;
+			
+		}
 	}
-}

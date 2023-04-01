@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_img_create_color_img.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:08:22 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/19 16:59:44 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/03/31 19:02:21 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color)
+void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color)
 {
 	char	*dst;
 

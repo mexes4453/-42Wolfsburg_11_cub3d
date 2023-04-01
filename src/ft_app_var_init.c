@@ -14,8 +14,6 @@
 
 void	ft_app_var_init(t_app *a, t_map *m)
 {
-	
-	
 	a->win_sz_x = IMG_SZ_X_WALL * m->map_size_x;
 	a->win_sz_y = IMG_SZ_X_WALL * m->map_size_y;
     
@@ -28,7 +26,7 @@ void	ft_app_var_init(t_app *a, t_map *m)
 
 	// compute  the number of rays to be casted
 	a->nbr_of_rays = 0;
-	a->nbr_of_rays = (SCR_WIDTH_PX / RAY_LINE_PX_WIDTH) + 1;
+	//a->nbr_of_rays = (SCR_WIDTH_PX / RAY_LINE_PX_WIDTH) + 1;
+	a->nbr_of_rays = SCR_WIDTH_PX;
 	a->raylengths = (double *)ft_calloc(a->nbr_of_rays, sizeof(double));
-
 }

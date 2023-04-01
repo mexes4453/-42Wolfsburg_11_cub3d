@@ -1,14 +1,14 @@
-NO /home/florian/coding/my_cub3d_git/textures/test
-SO /home/florian/coding/my_cub3d_git/textures/test      
-WE /home/florian/coding/my_cub3d_git/textures/test
-EA /home/florian/coding/my_cub3d_git/textures/test
+NO /home/florian/coding/my_cub3d_git/textures/BRICK_1A.xpm
+SO /home/florian/coding/my_cub3d_git/textures/BRICK_4A.xpm
+WE /home/florian/coding/my_cub3d_git/textures/SUPPORT_1A.xpm
+EA /home/florian/coding/my_cub3d_git/textures/BRICK_4D.xpm
 
 
 
 
 
-F    220  ,  100   ,   0
-C    225,   30,  0
+F    100  ,  100   ,   100
+C    100,   100,  255
 
 
 

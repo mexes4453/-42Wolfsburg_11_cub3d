@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_player_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/22 20:34:02 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/02 11:23:50 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void ft_player_init(t_player *p, t_map *m, t_app *app)
     p->Pos[dir][Y] = -1;
     p->Pos[dir_neg][X] = -1;
     p->Pos[dir_neg][Y] = -1;
+    p->Pos[next][X] = p->Pos[origin][X];
+    p->Pos[next][Y] = p->Pos[origin][Y];
     // get the cordinate of other point with reference to the origin cordinate (player)
     // direction vector
 /*     p->Pos[dir][X] = p->Pos[origin][X];
@@ -43,8 +45,8 @@ void ft_player_init(t_player *p, t_map *m, t_app *app)
     p->Pos[dir_pos][Y] = p->Pos[dir][Y]; */
     
     // create player image
-	p->img = ft_img_create_color_img(app->com, 0x00FF0000, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
-    p->black_img = ft_img_create_color_img(app->com, 0x00000000, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
+	p->img = ft_img_create_color_img(app->com, COL_PLAYER, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
+    p->black_img = ft_img_create_color_img(app->com, COL_BLACK, IMG_SZ_X_PLAYER, IMG_SZ_Y_PLAYER);
 
     // draw lines
 /*     img_line.startPosX = p->Pos[origin][X];
@@ -71,8 +73,8 @@ void ft_player_init(t_player *p, t_map *m, t_app *app)
         p->heading_angle = 0;
 
     //p->img = NULL; why?
-    p->delta_x = cos(p->heading_angle);
-    p->delta_y = sin(p->heading_angle);
+    p->delta_x = cos(p->heading_angle) * PX_MOVE;
+    p->delta_y = sin(p->heading_angle) * PX_MOVE;
     /*
     ft_memset((void *)&(p->img), 0, sizeof(t_img));
     p->img->addr = NULL;
@@ -87,22 +89,63 @@ int    ft_key_pressed(int key, t_app *a)
     if (key == KEY_ESC)
         ft_app_close(a);
     else if (key == KEY_W)
-        a->player->key_w = 1;
+    {
+        a->player->Pos[next][X] = a->player->Pos[origin][X] + a->player->delta_x;
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] + a->player->delta_y;
+    }
+        //a->player->key_w = 1;
     else if (key == KEY_A)
-        a->player->key_a = 1;
+    {
+        a->player->Pos[next][X] = a->player->Pos[origin][X] - a->player->delta_x;
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] + a->player->delta_y;
+    }
+        //a->player->key_a = 1;
     else if (key == KEY_S)
-        a->player->key_s = 1;
+    {
+        a->player->Pos[next][X] = a->player->Pos[origin][X] - a->player->delta_x;
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] - a->player->delta_y;
+    }
+    //    a->player->key_s = 1;
     else if (key == KEY_D)
-        a->player->key_d = 1;
+    {
+        a->player->Pos[next][X] = a->player->Pos[origin][X] + a->player->delta_x;
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] - a->player->delta_y;
+    }
+    //   a->player->key_d = 1;
     else if (key == KEY_LEFT)
-        a->player->key_left = 1;
+    {
+        a->player->heading_angle -= ROTATE_ANGLE_OFFSET;
+        if (a->player->heading_angle < 0)
+        {
+            a->player->heading_angle += (2 * PI);
+        }
+        a->player->delta_x = cos(a->player->heading_angle) * PX_MOVE;
+        a->player->delta_y = sin(a->player->heading_angle) * PX_MOVE;
+    
+    }
+    // a->player->key_left = 1;
+    
     else if (key == KEY_RIGHT)
-        a->player->key_right = 1;
+    {
+        a->player->heading_angle += ROTATE_ANGLE_OFFSET;
+        if (a->player->heading_angle > (2 * PI))
+        {
+            a->player->heading_angle -= (2 * PI);
+        }
+        a->player->delta_x = cos(a->player->heading_angle) * PX_MOVE;
+        a->player->delta_y = sin(a->player->heading_angle) * PX_MOVE;
+
+    }
+    //a->player->key_right = 1;
     else
+    {
         printf("New Button %d pressed\n", key);
+        printf("heading: %f\n", a->player->heading_angle);
+    }
     return (0);
 }
 
+#if 0
 int    ft_key_released(int key, t_player *p)
 {
     if (key == KEY_W)
@@ -120,8 +163,38 @@ int    ft_key_released(int key, t_player *p)
     return (0);
 }
 
-int ft_player_move(int key, t_app *a)
+#endif
+
+
+int ft_player_move(t_app *a)
 {
+    
+    mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr,
+                                a->player->Pos[origin][X],
+                                a->player->Pos[origin][Y]); //print black img
+
+    a->player->headline->color = COL_BLACK;
+    ft_draw_line(a->com, a->win, a->player->headline);
+
+    // print player image on new position
+    mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr,
+                                a->player->Pos[next][X],
+                                a->player->Pos[next][Y]); 
+    
+    // update the player origin with next pos value
+    a->player->Pos[origin][X] = a->player->Pos[next][X];
+    a->player->Pos[origin][Y] = a->player->Pos[next][Y];
+    
+    a->player->headline->color = COL_PLAYER;
+    // draw headline
+    a->player->headline->startPosX = a->player->Pos[origin][X];
+    a->player->headline->startPosY = a->player->Pos[origin][Y];
+    a->player->headline->endPosX = a->player->Pos[origin][X] + (a->player->delta_x * 5); //PX_MOVE);
+    a->player->headline->endPosY = a->player->Pos[origin][Y] + (a->player->delta_y * 5); //PX_MOVE);
+    ft_draw_line(a->com, a->win, a->player->headline);
+
+    
+#if 0
     (void)key;
     int old[MaxPos][2];
     
@@ -192,7 +265,8 @@ int ft_player_move(int key, t_app *a)
         ft_draw_line(a->com, a->win, &img_line);
         idx++;
     }
-    
+#endif
+#if 0
     //print new positions
     (void)old;
     if (old[dir][X] != -1)//dont run at first execution
@@ -206,8 +280,10 @@ int ft_player_move(int key, t_app *a)
     mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir][X], a->player->Pos[dir][Y]);
     mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_neg][X], a->player->Pos[dir_neg][Y]);
     mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_pos][X], a->player->Pos[dir_pos][Y]);
+#endif
     return (0);
 }
+
 
 int ft_player_angle(int key, t_app *a)
 {
@@ -234,6 +310,6 @@ int ft_player_angle(int key, t_app *a)
 int ft_loop_player(t_app *app)
 {
     ft_player_angle(0, app);
-	ft_player_move(0, app);
+	ft_player_move(app);
     return (0);
 }

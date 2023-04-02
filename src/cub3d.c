@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
+/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/22 20:32:46 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/02 10:34:30 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int argc, char **argv)
     t_app	    app;
     t_img       *wall_img;
     t_player    player;
+    t_line      img_line;
 	//t_mlx	mlx;
 
 	if (argc != 2)
@@ -85,10 +86,13 @@ int	main(int argc, char **argv)
 	
 	//ft_app_player_init(&app);
 	ft_player_init(&player, &map, &app);
+    img_line.color = COL_PLAYER;
+    player.headline = &img_line;
 	app.player = &player;
     //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
     // loop
     ft_app_display_map(&app, &map, "1", wall_img);
+    ft_draw_player(&app);
     /* mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[origin][X], player.Pos[origin][Y]);
     mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir][X], player.Pos[dir][Y]);
     mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_neg][X], player.Pos[dir_neg][Y]);
@@ -103,7 +107,7 @@ int	main(int argc, char **argv)
 	//mlx_hook(app.win, ON_KEYDOWN, 1L, ft_app_key_handler, &app);
 	mlx_hook(app.win, ON_DESTROY, 1L, ft_app_close, &app);
 	mlx_hook(app.win, ON_KEYDOWN, 1, ft_key_pressed, &app);
-	mlx_hook(app.win, ON_KEYUP, 2, ft_key_released, &player);
+	//mlx_hook(app.win, ON_KEYUP, 2, ft_key_released, &player);
 	mlx_loop_hook(app.com, ft_loop_player, &app);
 	mlx_loop(app.com);
 }

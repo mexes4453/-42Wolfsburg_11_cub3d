@@ -82,12 +82,16 @@ enum e_KEYS
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
-# define IMG_SZ_X_PLAYER (1)
-# define IMG_SZ_Y_PLAYER (1)
+# define IMG_SZ_X_PLAYER (4)
+# define IMG_SZ_Y_PLAYER (4)
 # define BIT_SIZE_BYTE (8)
 # define TRUE_DESTROY (1)
 # define FALSE_DESTROY (0)
 # define WIN_TITLE_MAP ("cub3d_map")
+# define COL_PLAYER (0x00FFFF00)        // YELLOW
+# define COL_BLACK (0x00000000)        // BLACK
+# define PX_MOVE (2)
+# define ROTATE_ANGLE_OFFSET (0.1)
 
 
 
@@ -129,6 +133,7 @@ typedef enum e_pos
 	dir_pos,
 	dir_neg,
 	dir,
+    next,
 	/*-----*/
 	MaxPos
 }	t_pos;
@@ -145,7 +150,7 @@ typedef struct s_line
 
 typedef struct s_player
 {
-	double		Pos[4][2];
+	double		Pos[MaxPos][2];
 	double		heading_angle;
 	double		delta_x;
 	double		delta_y;
@@ -157,6 +162,9 @@ typedef struct s_player
 	int			key_right;
 	t_img	    *img;
 	t_img	    *black_img;
+    double      world_pos_x;
+    double      world_pos_y;
+    t_line      *headline;
 	//t_img	    *img_dir;
 	/*
 	t_img	    *img_dir_neg;
@@ -251,9 +259,15 @@ int     ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
 void    ft_player_init(t_player *p, t_map *m, t_app *app);
 int		ft_key_pressed(int key, t_app *a);
 int		ft_key_released(int key, t_player *p);
-int		ft_player_move(int key, t_app *a);
+int		ft_player_move(t_app *a);
 int		ft_player_angle(int key, t_app *a);
 int		ft_loop_player(t_app *app);
 void    ft_draw_line(void *mlx, void *win, t_line *line);
+
+
+
+
+/* new functions */
+void ft_draw_player(t_app *a);
 
 #endif

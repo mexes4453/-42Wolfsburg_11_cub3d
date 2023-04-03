@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-static void	ft_calc_point(t_app *a, double (*c)[2][2], t_cmp_lines *line,
+/* static void	ft_calc_point(t_app *a, double (*c)[2][2], t_cmp_lines *line,
 	int (*check)[3])
 {
 	while ((*check)[X] >= 0 && (*check)[X] < a->map->map_size_x
@@ -33,15 +33,84 @@ static void	ft_calc_point(t_app *a, double (*c)[2][2], t_cmp_lines *line,
 	line->wall_x = (int)a->player->Pos[origin][X] + (*c)[s][X];
 	line->wall_y = (int)a->player->Pos[origin][Y] + (*c)[s][Y];
 	line->raylength = hypot((*c)[s][X], (*c)[s][Y]);
-}
+} */
 
-void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *line)
+void	ft_ray_get_dist(t_app *a, t_cmp_lines *line)
 {
 	double	c[2][2];
-	double	angle;
-	int		check[3];
+	int		step[2];
 
-	angle = p->heading_angle + offset;
+	c[delta][X] = fabs(1 / a->player->vec_rayDir[X]);
+	c[delta][Y] = fabs(1 / a->player->vec_rayDir[Y]);
+	
+	if (a->player->vec_rayDir[X] < 0) //x
+	{
+		step[X] = -1;
+		c[s][X] = (a->player->Pos[origin][X] - a->player->map_pos[X]) * c[delta][X];
+	}
+	else
+	{
+		step[X] = 1;
+		c[s][X] = (a->player->map_pos[X] + 1.0 - a->player->Pos[origin][X]) * c[delta][X];
+	}
+	if (a->player->vec_rayDir[Y] < 0)
+	{
+		step[Y] = -1;
+		c[s][Y] = ((a->player->Pos[origin][Y] - a->player->map_pos[Y]) * c[delta][Y]);
+	}
+	else //x
+	{
+		step[Y] = 1;
+		c[s][Y] = (a->player->map_pos[Y] + 1.0 - a->player->Pos[origin][Y]) * c[delta][Y];
+	}
+	
+	//perform DDA Algo
+	int hit;
+	hit = 0;
+/* 	check[X] = (int)(p->Pos[origin][X]);
+	check[Y] = (int)(p->Pos[origin][Y] / IMG_SZ_X_WALL); */
+	while (hit == 0)
+	{
+		if(c[s][X] < c[s][Y])
+		{
+			c[s][X] += c[delta][X];
+			a->player->map_pos[X] += step[X];
+			line->side = 0;
+		}
+		else
+		{
+			c[s][Y] += c[delta][Y];
+			a->player->map_pos[Y] += step[Y];
+			line->side = 1;
+		}
+		if (a->map->map[a->player->map_pos[Y]][a->player->map_pos[X]] == '1')
+			hit = 1;
+	}
+	if (line->side == 0)
+	{
+		line->perpWallDist = (a->player->map_pos[X] - a->player->Pos[origin][X] + (1 - step[X]) / 2) / a->player->vec_rayDir[X];
+		line->wall_x = a->player->Pos[origin][Y] + line->perpWallDist * a->player->vec_rayDir[Y];
+		line->wall_x -= floor(line->wall_x);
+	}
+	else
+	{
+		line->perpWallDist = (a->player->map_pos[Y] - a->player->Pos[origin][Y] + (1 - step[Y]) / 2) / a->player->vec_rayDir[Y];
+		line->wall_x = a->player->Pos[origin][X] + line->perpWallDist * a->player->vec_rayDir[X];
+		line->wall_x -= floor(line->wall_x);
+	}
+	
+
+	line->text_x = (int)(line->wall_x * (double)IMG_SZ_X_WALL);
+	if ((line->side == 0 && a->player->vec_rayDir[X] > 0)
+		|| (line->side == 1 && a->player->vec_rayDir[Y] < 0))
+			line->text_x = IMG_SZ_X_WALL - line->text_x - 1;
+	//Map raylines
+	line->coord_hit[X] = (a->player->Pos[origin][X] + (a->player->vec_rayDir[X] * line->perpWallDist)) * IMG_SZ_X_WALL;
+	line->coord_hit[Y] = (a->player->Pos[origin][Y] + (a->player->vec_rayDir[Y] * line->perpWallDist)) * IMG_SZ_Y_WALL;
+	
+	//line->raylength = hypot(c[s][X], c[s][Y]);
+
+/* 	angle = p->heading_angle + offset;
 	if ((angle <= PI && angle > 0) || (angle >= 2 * PI && angle <= 3 * PI)) // ray in above quadrant
 	{
 		line->orientation = NORTH;
@@ -54,7 +123,6 @@ void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *lin
 		check[VERSION] = 1;
 		ft_calc_point(a, &c, line, &check);
 		line->perpWallDist = line->raylength * cos(offset);
-		//line->perpWallDist = line->raylength;
 
 	}
 	else //angle is looking down
@@ -70,11 +138,10 @@ void	ft_ray_get_dist_horz(t_app *a, t_player *p, double offset, t_cmp_lines *lin
 		check[VERSION] = 0;
 		ft_calc_point(a, &c, line, &check);
 		line->perpWallDist = line->raylength * cos(offset);
-		//line->perpWallDist = line->raylength;
-	}
+	} */
 }
 
-void	ft_ray_get_dist_vert(t_app *a, t_player *p, double off, t_cmp_lines *l)
+/* void	ft_ray_get_dist_vert(t_app *a, t_player *p, double off, t_cmp_lines *l)
 {
 	double	c[2][2];
 	double	angle;
@@ -110,4 +177,4 @@ void	ft_ray_get_dist_vert(t_app *a, t_player *p, double off, t_cmp_lines *l)
 			//l->perpWallDist = l->raylength;
 			
 		}
-	}
+	} */

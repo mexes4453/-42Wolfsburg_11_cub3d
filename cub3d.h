@@ -191,12 +191,17 @@ typedef struct s_app
 	int			rc;
 	int			win_sz_x; //Map
 	int			win_sz_y; //Map
-	size_t		px;
-	size_t		py;
+	size_t		px; //using only in Map
+	size_t		py; //using only in Map
 	t_map		*map;
 	t_img		*img;
 	t_img		*main_img;
-	t_img		*black_backgroud;
+	t_img		*black_backgroud; //Map
+	t_img		*text_N;
+	t_img		*text_S;
+	t_img		*text_E;
+	t_img		*text_W;
+	t_img		*texture;
 	t_player	*player;
 	int			print_flag;
 	double 		*raylengths;
@@ -217,6 +222,7 @@ typedef struct s_cmp_lines
 	double	raylength; //dont use
 	double	perpWallDist;
 	int		side;
+	int		pole;
 	double	wall_x;
 	int		text_x;
 	int		wall_y; //dont use
@@ -308,4 +314,5 @@ void	ft_save_ray_length(t_app *a, double distance);
 void	ft_render_wall(t_app *a, t_cmp_lines *l, int i);
 void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);
 void	ft_img_fill_floor_ceilling(t_img *img, uint32_t ceilling_c, uint32_t floor_c);
+void	ft_text_to_img(t_app *a);
 #endif

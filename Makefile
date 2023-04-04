@@ -6,7 +6,7 @@
 #    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/03/30 20:23:47 by fsemke           ###   ########.fr        #
+#    Updated: 2023/04/04 21:59:38 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ ifeq ($(OS), Darwin)
 endif
 
 
-NAME = cub3d
+NAME = cub3D
 
 SRCS =	src/cub3d.c \
 		src/cleanup.c \

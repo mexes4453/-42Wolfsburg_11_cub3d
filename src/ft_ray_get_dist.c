@@ -86,17 +86,25 @@ void	ft_ray_get_dist(t_app *a, t_cmp_lines *line)
 		if (a->map->map[a->player->map_pos[Y]][a->player->map_pos[X]] == '1')
 			hit = 1;
 	}
-	if (line->side == 0)
+	if (line->side == 0) //side 0 == West or EAST
 	{
 		line->perpWallDist = (a->player->map_pos[X] - a->player->Pos[origin][X] + (1 - step[X]) / 2) / a->player->vec_rayDir[X];
 		line->wall_x = a->player->Pos[origin][Y] + line->perpWallDist * a->player->vec_rayDir[Y];
 		line->wall_x -= floor(line->wall_x);
+		if (a->player->vec_rayDir[X] < 0) // check if ray hits a wall facing west or east
+			line->pole = WEST;
+		else
+			line->pole = EAST;
 	}
-	else
+	else // side 1 == rays hits a wall facing the NORTH OR SOUTH
 	{
 		line->perpWallDist = (a->player->map_pos[Y] - a->player->Pos[origin][Y] + (1 - step[Y]) / 2) / a->player->vec_rayDir[Y];
 		line->wall_x = a->player->Pos[origin][X] + line->perpWallDist * a->player->vec_rayDir[X];
 		line->wall_x -= floor(line->wall_x);
+		if (a->player->vec_rayDir[Y] < 0) // check if ray hits a wall facing north or south
+			line->pole = NORTH;
+		else
+			line->pole = SOUTH;
 	}
 	
 

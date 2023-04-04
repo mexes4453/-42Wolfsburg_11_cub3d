@@ -53,6 +53,22 @@ void	ft_init(char **argv, t_map *map)
 	ft_print_all_information(map);
 }
 
+void	ft_text_to_img(t_app *a)
+{
+	a->text_N = malloc(sizeof(t_img));
+	a->text_S = malloc(sizeof(t_img));
+	a->text_W = malloc(sizeof(t_img));
+	a->text_E = malloc(sizeof(t_img));
+	a->text_N->img_ref_ptr = mlx_xpm_file_to_image(a->com, a->map->NO_texture, &(a->text_N->sz_x), &(a->text_N->sz_y));
+	a->text_S->img_ref_ptr = mlx_xpm_file_to_image(a->com, a->map->SO_texture, &(a->text_S->sz_x), &(a->text_S->sz_y));
+	a->text_W->img_ref_ptr = mlx_xpm_file_to_image(a->com, a->map->WE_texture, &(a->text_W->sz_x), &(a->text_W->sz_y));
+	a->text_E->img_ref_ptr = mlx_xpm_file_to_image(a->com, a->map->EA_texture, &(a->text_E->sz_x), &(a->text_E->sz_y));
+	a->text_N->addr = mlx_get_data_addr(a->text_N->img_ref_ptr, &(a->text_N->bits_per_pixel), &(a->text_N->line_length), &(a->text_N->endian));
+	a->text_S->addr = mlx_get_data_addr(a->text_S->img_ref_ptr, &(a->text_S->bits_per_pixel), &(a->text_S->line_length), &(a->text_S->endian));
+	a->text_W->addr = mlx_get_data_addr(a->text_W->img_ref_ptr, &(a->text_W->bits_per_pixel), &(a->text_W->line_length), &(a->text_W->endian));
+	a->text_E->addr = mlx_get_data_addr(a->text_E->img_ref_ptr, &(a->text_E->bits_per_pixel), &(a->text_E->line_length), &(a->text_E->endian));
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	    map;
@@ -90,7 +106,7 @@ int	main(int argc, char **argv)
     app.img = wall_img;
 	app.black_backgroud = ft_img_create_color_img(app.com, 0x00000000, app.win_sz_x, app.win_sz_y);
 	
-	//ft_app_player_init(&app);
+	ft_text_to_img(&app);
 	ft_player_init(&player, &map, &app);
 	app.player = &player;
     //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);

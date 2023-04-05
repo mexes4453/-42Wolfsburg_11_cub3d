@@ -30,7 +30,7 @@ int	ft_app_close(void *params)
 	mlx_destroy_window(a->com, a->win_3d);
 	mlx_destroy_display(a->com);
 	free(a->com);
-    ft_clean_parsing(a->map);
+	ft_clean_parsing(a->map);
 	exit(EXIT_SUCCESS);
 	return (0);
 }

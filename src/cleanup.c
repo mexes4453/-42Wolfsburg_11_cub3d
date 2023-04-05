@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:21:32 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/19 16:38:37by cudoh            ###   ########.fr       */
+/*   Updated: 2023/04/05 22:36:58 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	ft_clean_2d_array(char **array)
 			free (array[i]);
 	}
 	if (array)
-    {
+	{
 		free (array);
-        array = NULL;
-    }
+		array = NULL;
+	}
 }
 
 void	ft_clean_parsing(t_map *map)

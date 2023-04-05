@@ -6,21 +6,24 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:43:21 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/21 21:03:48 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/05 22:57:34 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+/*
+ * This function can be deleted at the end
+ */
 void    ft_draw_line(void *mlx, void *win, t_line *line)
 {
-	double deltaX;
-	double deltaY;
-	double pixelX;
-	double pixelY;
+	double	deltaX;
+	double	deltaY;
+	double	pixelX;
+	double	pixelY;
 
-	deltaX = line->endPosX - line->startPosX; // 10
-	deltaY = line->endPosY - line->startPosY; // 0
+	deltaX = line->endPosX - line->startPosX;
+	deltaY = line->endPosY - line->startPosY;
 	pixelX = line->startPosX;
 	pixelY = line->startPosY;
 

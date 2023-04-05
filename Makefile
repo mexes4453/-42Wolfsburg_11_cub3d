@@ -6,7 +6,7 @@
 #    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/04/05 22:06:24 by fsemke           ###   ########.fr        #
+#    Updated: 2023/04/05 23:45:01 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,13 @@ SRCS =	src/cub3d.c \
 		src/ft_app_display_map.c \
 		src/ft_player_init.c \
 		src/ft_draw_line.c \
-		src/ft_onKeyPress_W.c \
-		src/ft_onKeyPress_S.c \
-		src/ft_onKeyPress_A.c \
-		src/ft_onKeyPress_D.c \
+		src/ft_onKeyPress.c \
 		src/ft_player_move.c \
 		src/ft_key.c \
 		src/ft_ray_get_dist.c \
 		src/ft_render_wall.c  \
-		src/ft_free_img.c
+		src/ft_free_img.c \
+		src/ft_render_img.c
 
 OBJS = $(SRCS:.c=.o)
 

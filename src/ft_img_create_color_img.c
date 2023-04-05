@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:08:22 by cudoh             #+#    #+#             */
-/*   Updated: 2023/04/05 22:09:50 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/05 23:31:30 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length);
-	dst += (x * (data->bits_per_pixel / BIT_SIZE_BYTE));
+	dst += (x * (data->bpp / BIT_SIZE_BYTE));
 	*(unsigned int *)dst = color;
 }
-
-
 
 static void	ft_app_color_fill_img(t_img *img, uint32_t color)
 {
@@ -41,25 +39,18 @@ static void	ft_app_color_fill_img(t_img *img, uint32_t color)
 	}
 }
 
-
-
-t_img   *ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY)
+t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY)
 {
-    t_img   *img;
-    
-    img = ft_calloc(1, sizeof(t_img));
-    img->sz_x = szX;
-    img->sz_y = szY;
+	t_img	*img;
+
+	img = ft_calloc(1, sizeof(t_img));
+	img->sz_x = szX;
+	img->sz_y = szY;
 	img->img_ref_ptr = mlx_new_image(mlxPtr, szX, szY);
 	img->addr = mlx_get_data_addr(img->img_ref_ptr, \
-									&(img->bits_per_pixel), \
+									&(img->bpp), \
 									&(img->line_length), \
 									&(img->endian));
 	ft_app_color_fill_img((img), color);
-    return (img);
+	return (img);
 }
-
-
-
-
-

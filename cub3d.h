@@ -124,7 +124,7 @@ typedef struct s_img
 {
 	void	*img_ref_ptr;
 	char	*addr;
-	int		bits_per_pixel;
+	int		bpp; //bits_per_pixel
 	int		endian;
 	int		line_length;
 	int		sz_x;
@@ -242,7 +242,7 @@ void	ft_clean_parsing(t_map *map);
 
 // cub3d
 void	ft_init_map_default(t_map *map);
-void	ft_init(char **argv, t_map *map);
+void	ft_init(char **argv, t_map *map, t_app *app);
 
 //error
 void	error_exit(char *s, t_map *map);
@@ -298,10 +298,10 @@ int		ft_player_angle(t_app *a);
 int		ft_loop_player(t_app *app);
 void    ft_draw_line(void *mlx, void *win, t_line *line);
 
-void	ft_onKeyPress_W(t_app *a);
-void	ft_onKeyPress_A(t_app *a);
-void	ft_onKeyPress_S(t_app *a);
-void	ft_onKeyPress_D(t_app *a);
+void	ft_on_key_press_w(t_app *a);
+void	ft_on_key_press_a(t_app *a);
+void	ft_on_key_press_s(t_app *a);
+void	ft_on_key_press_d(t_app *a);
 
 
 // ray casting
@@ -310,10 +310,8 @@ void    ft_ray_get_dist(t_app *a, t_cmp_lines *line);
 void	ft_render_wall(t_app *a, t_cmp_lines *l, int i);
 void	ft_render_img(t_app *a);
 void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);
-void	ft_fill_img_color(t_img *img, uint32_t ceilling_c, uint32_t floor_c);
 void	ft_text_to_img(t_app *a);
 t_img	*ft_create_new_img(void *mlx_ptr);
-void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x);
 void	ft_free_img(void *mlx_ptr, t_img *img);
 
 #endif

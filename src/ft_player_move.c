@@ -3,28 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   ft_player_move.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
+/*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:05:49 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/28 21:23:132 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/04/05 21:09:24 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x)
+{
+	a->player->cameraX = 2 * x / (double)SCR_WIDTH_PX - 1;
+	a->player->rayDir[X] = a->player->dir[X] + a->player->plane[X] \
+	* a->player->cameraX;
+	a->player->rayDir[Y] = a->player->dir[Y] + a->player->plane[Y] \
+	* a->player->cameraX;
+	a->player->map_pos[X] = (int) a->player->Pos[origin][X];
+	a->player->map_pos[Y] = (int) a->player->Pos[origin][Y];
+	ft_ray_get_dist(a, rayline);
+	//Map stuff
+	{
+		t_line	line;
+		line.startPosX = (int)(a->player->Pos[origin][X] * IMG_SZ_X_WALL);
+		line.startPosY = (int)(a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
+		line.color = 0x0000FF00;
+		line.endPosX = rayline->coord_hit[X];
+		line.endPosY = rayline->coord_hit[Y];
+		ft_draw_line(a->com, a->win, &line);
+	}
+}
+
+void	ft_render_img(t_app *a)
+{
+	t_cmp_lines	rayline;
+	int			x;
+
+	//Create main img
+	a->main_img = ft_create_new_img(a->com);
+	ft_fill_img_color(a->main_img, a->map->ceilling_c, a->map->floor_c);
+	x = 0;
+	while (x < SCR_WIDTH_PX)
+	{
+		ft_update_player_var(a, &rayline, x);
+		ft_render_wall(a, &rayline, x);
+		++x;
+	}
+	mlx_put_image_to_window(a->com, a->win_3d, a->main_img->img_ref_ptr, 0, 0);
+	mlx_destroy_image(a->com, a->main_img->img_ref_ptr);
+	free (a->main_img);
+	a->main_img = NULL;
+}
+
+t_img	*ft_create_new_img(void *mlx_ptr)
+{
+	t_img	*img;
+
+	img = ft_calloc(1, sizeof(t_img));
+	img->sz_x = SCR_WIDTH_PX;
+	img->sz_y = SCR_HEIGHT_PX;
+	img->img_ref_ptr = mlx_new_image(mlx_ptr, SCR_WIDTH_PX, SCR_HEIGHT_PX);
+	img->addr = mlx_get_data_addr(img->img_ref_ptr, &(img->bits_per_pixel), \
+	&(img->line_length), &(img->endian));
+	return (img);
+}
+
 int ft_player_move(t_app *a)
 {
-	int old[MaxPos][2];
-	int i;
-
-	i = 0;
-	while (i < MaxPos)
-	{
-		old[i][X] = a->player->Pos[i][X];
-		old[i][Y] = a->player->Pos[i][Y];
-		++i;
-	}
-
 	//move the player
 	if (a->player->key_w)
 		ft_onKeyPress_W(a);
@@ -35,105 +80,43 @@ int ft_player_move(t_app *a)
 	if (a->player->key_d)
 		ft_onKeyPress_D(a);
 
-	//if  (a->print_flag == 1)
-	if  (1)
+	//Map stuff
 	{
-		//overwrite everything on the map
+		//overwrite everything on the map with black
 		mlx_put_image_to_window(a->com, a->win, a->black_backgroud->img_ref_ptr, 0, 0);
 		ft_app_display_map(a, a->map, "1", a->img);
-		
+		//set var for map calculations
 		a->px = 0;
 		a->py = 0;
-
-		//print new player position dots on map
-		(void)old;
-/* 		if (old[dir][X] != -1)//dont run at first execution
-		{
-			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[origin][X], old[origin][Y]); //print black img
-			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir][X], old[dir][Y]); //black
-			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_neg][X], old[dir_neg][Y]); //black
-			mlx_put_image_to_window(a->com, a->win, a->player->black_img->img_ref_ptr, old[dir_pos][X], old[dir_pos][Y]); //black
-		} */
-		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[origin][X] * IMG_SZ_X_WALL, a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
-/* 		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir][X], a->player->Pos[dir][Y]);
-		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_neg][X], a->player->Pos[dir_neg][Y]);
-		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[dir_pos][X], a->player->Pos[dir_pos][Y]); */
-		
-
-		// cast ray
-		// compute  (FOV / (FOV/SCR_WIDTH) / RAY_LINE_PX_WIDTH) + 1
-		
-		t_cmp_lines rayline;
-		//t_cmp_lines vert;
-		t_img	*tmp;
-		
-		//Create main img
-		tmp = ft_calloc(1, sizeof(t_img));
-		tmp->sz_x = SCR_WIDTH_PX;
-		tmp->sz_y = SCR_HEIGHT_PX;
-		tmp->img_ref_ptr = mlx_new_image(a->com, SCR_WIDTH_PX, SCR_HEIGHT_PX);
-		tmp->addr = mlx_get_data_addr(tmp->img_ref_ptr, &(tmp->bits_per_pixel), &(tmp->line_length), &(tmp->endian));
-
-		ft_img_fill_floor_ceilling(tmp, a->map->ceilling_c, a->map->floor_c);
-		a->main_img = tmp;
-
-		int x;
-		x = 0;
-		while (x < SCR_WIDTH_PX)
-		{
-			//new try
-			a->player->cameraX = 2 * x / (double)SCR_WIDTH_PX - 1;
-			a->player->vec_rayDir[X] = a->player->vec_dir[X] + a->player->vec_plane[X] * a->player->cameraX;
-			a->player->vec_rayDir[Y] = a->player->vec_dir[Y] + a->player->vec_plane[Y] * a->player->cameraX;
-			a->player->map_pos[X] = (int) a->player->Pos[origin][X];
-			a->player->map_pos[Y] = (int) a->player->Pos[origin][Y];
-
-			
-			ft_ray_get_dist(a, &rayline);
-
-			t_line line; //print map rayline
-			line.startPosX = (int)(a->player->Pos[origin][X] * IMG_SZ_X_WALL);
-			line.startPosY = (int)(a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
-			line.color = 0x0000FF00;
-			
-			line.endPosX = rayline.coord_hit[X];
-			line.endPosY = rayline.coord_hit[Y];
-			ft_draw_line(a->com, a->win, &line);
-			
-			ft_render_wall(a, &rayline, x);
-			++x;
-		}
-		mlx_put_image_to_window(a->com, a->win_world, a->main_img->img_ref_ptr, 0, 0);
-		mlx_destroy_image(a->com, a->main_img->img_ref_ptr);
-		a->main_img = NULL;
-		//ft_printf("Amount of Raylines: %d", i);
-		a->print_flag = 0;
+		//print new player position on map
+		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, a->player->Pos[origin][X] * IMG_SZ_X_WALL, \
+		a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
 	}
 	return (0);
 }
 
-int ft_player_angle(t_app *a)
+int	ft_player_angle(t_app *a)
 {
-	double	oldDirX;
-	double	oldPlaneX;
+	double		old_dirx;
+	double		old_planex;
+	t_player	*p;
 
-	oldDirX = a->player->vec_dir[X];
-	oldPlaneX = a->player->vec_plane[X];
-	if (a->player->key_left)
+	p = a->player;
+	old_dirx = p->dir[X];
+	old_planex = p->plane[X];
+	if (p->key_left)
 	{	
-		a->player->vec_dir[X] = a->player->vec_dir[X] * cos(-ROT_SPEED) - a->player->vec_dir[Y] * sin(-ROT_SPEED);
-		a->player->vec_dir[Y] = oldDirX * sin(-ROT_SPEED) + a->player->vec_dir[Y] * cos(-ROT_SPEED);
-		a->player->vec_plane[X] = a->player->vec_plane[X] * cos(-ROT_SPEED) - a->player->vec_plane[Y] * sin(-ROT_SPEED);
-		a->player->vec_plane[Y] = oldPlaneX * sin(-ROT_SPEED) + a->player->vec_plane[Y] * cos(-ROT_SPEED);
-		a->print_flag = 1;
+		p->dir[X] = p->dir[X] * cos(-RS) - p->dir[Y] * sin(-RS);
+		p->dir[Y] = old_dirx * sin(-RS) + p->dir[Y] * cos(-RS);
+		p->plane[X] = p->plane[X] * cos(-RS) - p->plane[Y] * sin(-RS);
+		p->plane[Y] = old_planex * sin(-RS) + p->plane[Y] * cos(-RS);
 	}
-	if (a->player->key_right)
+	if (p->key_right)
 	{
-		a->player->vec_dir[X] = a->player->vec_dir[X] * cos(ROT_SPEED) - a->player->vec_dir[Y] * sin(ROT_SPEED);
-		a->player->vec_dir[Y] = oldDirX * sin(ROT_SPEED) + a->player->vec_dir[Y] * cos(ROT_SPEED);
-		a->player->vec_plane[X] = a->player->vec_plane[X] * cos(ROT_SPEED) - a->player->vec_plane[Y] * sin(ROT_SPEED);
-		a->player->vec_plane[Y] = oldPlaneX * sin(ROT_SPEED) + a->player->vec_plane[Y] * cos(ROT_SPEED);
-		a->print_flag = 1;
+		p->dir[X] = p->dir[X] * cos(RS) - p->dir[Y] * sin(RS);
+		p->dir[Y] = old_dirx * sin(RS) + p->dir[Y] * cos(RS);
+		p->plane[X] = p->plane[X] * cos(RS) - p->plane[Y] * sin(RS);
+		p->plane[Y] = old_planex * sin(RS) + p->plane[Y] * cos(RS);
 	}
 	return (0);
 }
@@ -142,13 +125,14 @@ int ft_loop_player(t_app *app)
 {
 	ft_player_angle(app);
 	ft_player_move(app);
+	ft_render_img(app);
 	return (0);
 }
 
-void	ft_img_fill_floor_ceilling(t_img *img, uint32_t ceilling_c, uint32_t floor_c)
+void	ft_fill_img_color(t_img *img, uint32_t ceilling_c, uint32_t floor_c)
 {
 	int	x;
-	int y;
+	int	y;
 
 	y = 0;
 	while (y < img->sz_y / 2)

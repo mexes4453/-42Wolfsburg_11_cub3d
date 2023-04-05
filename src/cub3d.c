@@ -73,9 +73,7 @@ int	main(int argc, char **argv)
 {
 	t_map	    map;
     t_app	    app;
-    t_img       *wall_img;
     t_player    player;
-	//t_mlx	mlx;
 
 	if (argc != 2)
 	{
@@ -90,43 +88,23 @@ int	main(int argc, char **argv)
     // create player map
     app.com = mlx_init();
 	app.win = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y, WIN_TITLE_MAP);
-	app.win_world = mlx_new_window(app.com, SCR_WIDTH_PX, SCR_HEIGHT_PX, WIN_TITLE_WORLD);
-/* 	t_line perspective_line;
-	perspective_line.startPosX = 0;
-	perspective_line.startPosY = SCR_HEIGHT_PX / 2;
-	perspective_line.endPosX = SCR_WIDTH_PX;
-	perspective_line.endPosY = SCR_HEIGHT_PX / 2;
-	perspective_line.color = 0x00FFFF00;
-	ft_draw_line(app.com, app.win_world, &perspective_line); */
+	app.win_3d = mlx_new_window(app.com, SCR_WIDTH_PX, SCR_HEIGHT_PX, WIN_TITLE_WORLD);
 
     /* Create player map */
-    wall_img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
+    app.img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
 
-	
-    app.img = wall_img;
 	app.black_backgroud = ft_img_create_color_img(app.com, 0x00000000, app.win_sz_x, app.win_sz_y);
 	
 	ft_text_to_img(&app);
 	ft_player_init(&player, &map, &app);
 	app.player = &player;
-    //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
     // loop
-    ft_app_display_map(&app, &map, "1", wall_img);
-    /* mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[origin][X], player.Pos[origin][Y]);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir][X], player.Pos[dir][Y]);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_neg][X], player.Pos[dir_neg][Y]);
-    mlx_put_image_to_window(app.com, app.win, player.img->img_ref_ptr, player.Pos[dir_pos][X], player.Pos[dir_pos][Y]); */
-
-
-    //mlx_put_image_to_window(app.com, app.win, wall_img->img_ref_ptr, IMG_SZ_X, IMG_SZ_Y);
-    // end loop
+    ft_app_display_map(&app, &map, "1", app.img);
 
     
-	//ft_app_render_imgs(&app);
-	//mlx_hook(app.win, ON_KEYDOWN, 1L, ft_app_key_handler, &app);
-	mlx_hook(app.win_world, ON_DESTROY, 1L, ft_app_close, &app);
-	mlx_hook(app.win_world, ON_KEYDOWN, 1, ft_key_pressed, &app);
-	mlx_hook(app.win_world, ON_KEYUP, 2, ft_key_released, &player);
+	mlx_hook(app.win_3d, ON_DESTROY, 1L, ft_app_close, &app);
+	mlx_hook(app.win_3d, ON_KEYDOWN, 1, ft_key_pressed, &app);
+	mlx_hook(app.win_3d, ON_KEYUP, 2, ft_key_released, &player);
 	mlx_loop_hook(app.com, ft_loop_player, &app);
 	mlx_loop(app.com);
 }

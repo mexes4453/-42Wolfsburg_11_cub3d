@@ -18,15 +18,19 @@ int	ft_app_close(void *params)
 
 	a = (t_app *)params;
 	ft_printf("\nExiting application...\n");
-	//mlx_destroy_image(a->com, (a->p.p_img.img));
-	mlx_destroy_image(a->com, (a->img->img_ref_ptr));
+	ft_free_img(a->com, a->text_N);
+	ft_free_img(a->com, a->text_S);
+	ft_free_img(a->com, a->text_W);
+	ft_free_img(a->com, a->text_E);
+	ft_free_img(a->com, a->black_backgroud);
+	ft_free_img(a->com, a->player->black_img);
+	ft_free_img(a->com, a->player->img);
+	ft_free_img(a->com, a->img);
 	mlx_destroy_window(a->com, a->win);
-	mlx_destroy_window(a->com, a->win_world);
-	//ft_app_free_gmap(a->map);
-    ft_clean_parsing(a->map);
-    
-	//mlx_destroy_display(a->com);
+	mlx_destroy_window(a->com, a->win_3d);
+	mlx_destroy_display(a->com);
 	free(a->com);
+    ft_clean_parsing(a->map);
 	exit(EXIT_SUCCESS);
 	return (0);
 }

@@ -19,7 +19,7 @@ void	ft_app_var_init(t_app *a, t_map *m)
     
     //initialise the image struct
 	a->img = NULL;
-    
+
 	a->px = 0;
 	a->py = 0;
 
@@ -28,5 +28,5 @@ void	ft_app_var_init(t_app *a, t_map *m)
 	a->nbr_of_rays = 0;
 	//a->nbr_of_rays = (SCR_WIDTH_PX / RAY_LINE_PX_WIDTH) + 1;
 	a->nbr_of_rays = SCR_WIDTH_PX;
-	a->raylengths = (double *)ft_calloc(a->nbr_of_rays, sizeof(double));
+	//a->raylengths = (double *)ft_calloc(a->nbr_of_rays, sizeof(double));
 }

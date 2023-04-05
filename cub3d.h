@@ -44,17 +44,6 @@
 #  define X_BTN 33
 */
 
-
-enum e_E_APP_EVENT{
-	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
-	ON_DESTROY = 17
-};
-
 enum e_KEYS
 {
 	KEY_ESC = 65307,
@@ -68,20 +57,30 @@ enum e_KEYS
 };
 # endif
 
+enum e_E_APP_EVENT{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
+
 # define NORTH 1
 # define EAST 2
 # define SOUTH 3
 # define WEST 4
 
 # define PI 3.1415926
-# define RADIENT 0.01745329 //Multiply with degree = value in radient
+# define RADIENT 0.01745329 //Multiply with degree val will get radient
 # define X 0
 # define Y 1
 # define VERSION 2 //to calculate Raylines
 
 # define DIR_LENGTH 50
-# define ROT_SPEED 0.03 //higher == faster
-# define MOVE_SPEED 0.03 //higher == faster
+# define RS 0.03 //Rotation Speed higher == faster
+# define MS 0.03 //Moving Speed higher == faster
 # define FOV 66 //in degree
 # define SCR_WIDTH_PX 800
 # define SCR_HEIGHT_PX 600
@@ -160,9 +159,9 @@ typedef struct s_player
 	double		heading_angle; //old angle
 	double		delta_x; //old vec pos?
 	double		delta_y; //old vec pos?
-	double		vec_dir[2]; //direction player view
-	double		vec_plane[2]; //camera plane
-	double		vec_rayDir[2]; // ray vector
+	double		dir[2]; //vector direction player view
+	double		plane[2]; //vector camera plane
+	double		rayDir[2]; // vectorray
 	double		cameraX; //left side == -1, mid == 0, right == 1
 	int			map_pos[2];
 	int			key_w;
@@ -186,7 +185,7 @@ typedef struct s_player
 typedef struct s_app
 {
 	void		*win;
-	void		*win_world;
+	void		*win_3d;
 	void		*com;
 	int			rc;
 	int			win_sz_x; //Map
@@ -194,8 +193,8 @@ typedef struct s_app
 	size_t		px; //using only in Map
 	size_t		py; //using only in Map
 	t_map		*map;
-	t_img		*img;
-	t_img		*main_img;
+	t_img		*img; //Map image
+	t_img		*main_img; //img 3D window
 	t_img		*black_backgroud; //Map
 	t_img		*text_N;
 	t_img		*text_S;
@@ -203,7 +202,6 @@ typedef struct s_app
 	t_img		*text_W;
 	t_img		*texture;
 	t_player	*player;
-	int			print_flag;
 	double 		*raylengths;
 	int			nbr_of_rays; // == SCR_WIDTH_PX
 	t_img		*wall;
@@ -226,7 +224,7 @@ typedef struct s_cmp_lines
 	double	wall_x;
 	int		text_x;
 	int		wall_y; //dont use
-	double	coord_hit[2];
+	double	coord_hit[2]; //Need for map
 }	t_cmp_lines;
 
 typedef enum e_coord
@@ -308,11 +306,14 @@ void	ft_onKeyPress_D(t_app *a);
 
 // ray casting
 void    ft_ray_get_dist(t_app *a, t_cmp_lines *line);
-//void	ft_ray_get_dist_vert(t_app *a, t_player *p, double offset, t_cmp_lines *line);
 
-void	ft_save_ray_length(t_app *a, double distance);
 void	ft_render_wall(t_app *a, t_cmp_lines *l, int i);
+void	ft_render_img(t_app *a);
 void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);
-void	ft_img_fill_floor_ceilling(t_img *img, uint32_t ceilling_c, uint32_t floor_c);
+void	ft_fill_img_color(t_img *img, uint32_t ceilling_c, uint32_t floor_c);
 void	ft_text_to_img(t_app *a);
+t_img	*ft_create_new_img(void *mlx_ptr);
+void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x);
+void	ft_free_img(void *mlx_ptr, t_img *img);
+
 #endif

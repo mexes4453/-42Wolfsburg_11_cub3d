@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:09:59 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/23 15:10:15 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/05 22:13:09 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int    ft_key_pressed(int key, t_app *a)
         a->player->key_left = 1;
     else if (key == KEY_RIGHT)
         a->player->key_right = 1;
-    else
-        printf("New Button %d pressed\n", key);
     return (0);
 }
 

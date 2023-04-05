@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:08:22 by cudoh             #+#    #+#             */
-/*   Updated: 2023/03/31 19:02:21 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/05 22:09:50 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,27 +60,6 @@ t_img   *ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY)
 }
 
 
-#if 0
-void	ft_app_create_file_img(t_app *a, t_img *i, char *fp_img)
-{
-	i->img = mlx_xpm_file_to_image(a->com, fp_img, &(i->sz_x), &(i->sz_y));
-}
 
-/**
- * @brief 		This function displays img on window. Img objects passed in
- * 				are destroyed if flag = TRUE_DESTORY.
- * todo			Ensure that the pixel cordinate is update accordingly before push
- * 
- * @param a 
- * @param i 
- * @param flag 
- */
-void	ft_app_display_img(t_app *a, t_img *i, int flag)
-{
-	mlx_put_image_to_window(a->com, a->win, i->img, a->px, a->py);
-	if (flag == TRUE_DESTROY)
-		mlx_destroy_image(a->com, i->img);
-}
-#endif 
 
 

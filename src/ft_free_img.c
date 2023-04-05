@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_onKeyPress_S.c                                  :+:      :+:    :+:   */
+/*   ft_free_img.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 22:10:17 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/05 13:00:03 by fsemke           ###   ########.fr       */
+/*   Created: 2023/04/05 22:05:36 by fsemke            #+#    #+#             */
+/*   Updated: 2023/04/05 22:05:43 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void ft_onKeyPress_S(t_app *a)
+void ft_free_img(void *mlx_ptr, t_img *img)
 {
-	int idx_x;
-	int idx_y;
-
-	idx_x = (int)(a->player->Pos[origin][X] - a->player->dir[X] * MS);
-	idx_y = (int)(a->player->Pos[origin][Y] - a->player->dir[Y] * MS);
-	
-	if (a->map->map[(int)a->player->Pos[origin][Y]][idx_x] != '1')
-		a->player->Pos[origin][X] -= a->player->dir[X] * MS;
-	if (a->map->map[idx_y][(int)a->player->Pos[origin][X]] != '1')
-		a->player->Pos[origin][Y] -= a->player->dir[Y] * MS;
+    mlx_destroy_image(mlx_ptr, img->img_ref_ptr);
+	free(img);
+    img = NULL;
 }

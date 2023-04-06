@@ -1,22 +1,14 @@
+WE textures/SUPPORT_1A.xpm
 NO textures/BRICK_1A.xpm
 SO textures/BRICK_4A.xpm
-WE textures/SUPPORT_1A.xpm
 EA textures/BRICK_4D.xpm
 
-
-
-
-
+C    200,   100,   255
 F    100  ,  100   ,   100
-C    100,   100,  255
-
-
-
-
 
 11111
 10  1
-1 N 1
- 111
-
+1 E 1
+11111
+11111
 

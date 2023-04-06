@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:05:45 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/16 12:27:11 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 23:44:04 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,27 +85,13 @@ char	**ft_read_file(char *filename)
 	return (file);
 }
 
-int	ft_map_extension(char *filename)
-{
-	int	length;
-
-	length = ft_strlen(filename);
-	if (filename[length - 1] != 'b' || filename[length - 2] != 'u'
-		|| filename[length - 3] != 'c' || filename[length - 4] != '.')
-		return (-1);
-	return (0);
-}
-
 int	ft_read_map(char *filename, t_map *map)
 {
-	char	**file;
-
-	if (ft_map_extension(filename) == -1)
-		error_exit("ERROR:\nThe map name needs to end with *.cub\n", map);
-	file = ft_read_file(filename);
-	if (!file)
+	ft_check_file_ext(filename, FILE_EXT_MAP, map);
+	map->file = ft_read_file(filename);
+	if (!(map->file))
 		error_exit("ERROR:\nCan't load the file\n", map);
-	ft_parsing_file(file, map);
+	ft_parsing_file(map->file, map);
 	ft_check_errors(map);
 	return (0);
 }

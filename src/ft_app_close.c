@@ -22,11 +22,6 @@ int	ft_app_close(void *params)
 	ft_free_img(a->com, a->text_s);
 	ft_free_img(a->com, a->text_w);
 	ft_free_img(a->com, a->text_e);
-	ft_free_img(a->com, a->black_backgroud);
-	ft_free_img(a->com, a->player->black_img);
-	ft_free_img(a->com, a->player->img);
-	ft_free_img(a->com, a->img);
-	mlx_destroy_window(a->com, a->win);
 	mlx_destroy_window(a->com, a->win_3d);
 	mlx_destroy_display(a->com);
 	free(a->com);

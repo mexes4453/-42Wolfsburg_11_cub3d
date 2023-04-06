@@ -6,25 +6,11 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 23:12:45 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 16:57:44 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 20:28:35 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-/* Printing ray for the map
- */
-static void	ft_print_map_ray(t_app *a, t_cmp_lines *rayline)
-{
-	t_line	line;
-
-	line.start_posx = (int)(a->player->pos[X] * IMG_SZ_X_WALL);
-	line.start_posy = (int)(a->player->pos[Y] * IMG_SZ_Y_WALL);
-	line.color = 0x0000FF00;
-	line.end_posx = rayline->coord_hit[X];
-	line.end_posy = rayline->coord_hit[Y];
-	ft_draw_line(a->com, a->win, &line);
-}
 
 static void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x)
 {
@@ -36,7 +22,6 @@ static void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x)
 	a->player->map_pos[X] = (int) a->player->pos[X];
 	a->player->map_pos[Y] = (int) a->player->pos[Y];
 	ft_ray_get_dist(a, rayline);
-	ft_print_map_ray(a, rayline);
 }
 
 static void	ft_fill_img_color(t_img *img, uint32_t ceilling_c, uint32_t floor_c)

@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:55:43 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 16:49:22 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 22:15:25 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ void	ft_check_errors(t_map *map)
 {
 	char	**mapcopy;
 
+	ft_check_file_ext(map->no_texture, FILE_EXT_TEXTURE, map);
+	ft_check_file_ext(map->ea_texture, FILE_EXT_TEXTURE, map);
+	ft_check_file_ext(map->so_texture, FILE_EXT_TEXTURE, map);
+	ft_check_file_ext(map->we_texture, FILE_EXT_TEXTURE, map);
 	if (ft_check_valid_file(map->no_texture) == -1)
 		error_exit("Error\nCan't open North texture file\n", map);
 	if (ft_check_valid_file(map->ea_texture) == -1)

@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:22:59 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 16:49:22 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 23:49:59 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_set_mapsize(char **file, int i, t_map *map)
 	if (map->map_size_x == 0 || map->map_size_y == 0)
 	{
 		ft_clean_2d_array(file);
-		error_exit("Error:\nThere is no map in the file\n", map);
+		error_exit("Error:\nMapfile is corrupted\n", map);
 	}
 }
 
@@ -115,7 +115,6 @@ void	ft_parsing_file(char **file, t_map *map)
 			break ;
 		++i;
 	}
-	ft_clean_2d_array(file);
 	if (ret == -1)
 		error_exit("Error:\nOccured by allocating memory for the map", map);
 }

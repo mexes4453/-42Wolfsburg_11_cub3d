@@ -6,7 +6,7 @@
 #    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/04/06 19:16:21 by fsemke           ###   ########.fr        #
+#    Updated: 2023/04/06 22:02:25 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRCS =	src/cub3d.c \
 		src/ft_key.c \
 		src/ft_ray_get_dist.c \
 		src/ft_render_wall.c  \
-		src/ft_render_img.c
+		src/ft_render_img.c \
+		
 
 OBJS = $(SRCS:.c=.o)
 

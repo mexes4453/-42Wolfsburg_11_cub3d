@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 19:13:22 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/18 20:01:56 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 23:47:00 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_set_texture(char *line, char **var_texture, t_map *map)
 	int	i;
 
 	i = 2;
-	while (line[i] == ' ')
+	while (line[i] == ' ' || line[i] == '\t' || line[i] == '\r')
 		i++;
 	if (*var_texture)
 		error_exit("ERROR:\nYou set a texture more than once\n", map);
@@ -44,6 +44,30 @@ void	ft_set_color(char *line, t_map *map)
 		error_exit("Error:\nSet floor or ceil color multiple times\n", map);
 }
 
+static int	ft_check_color_val_str(char *str_col, int *int_col)
+{
+	char	*str_col_ptr;
+	char	*str_itoa;
+	int		err_code;
+
+	err_code = 0;
+	if (str_col != NULL)
+	{
+		str_col_ptr = ft_strtrim(str_col, WHITESPACE_CHAR);
+		*int_col = ft_atoi(str_col_ptr);
+		str_itoa = ft_itoa(*int_col);
+		if (ft_strncmp(str_col_ptr, str_itoa, ft_strlen(str_col_ptr)) != 0)
+			err_code = -1;
+		else if (*int_col < 0 || *int_col > 255)
+			err_code = -1;
+		free(str_col_ptr);
+		free(str_itoa);
+		str_col_ptr = NULL;
+		str_itoa = NULL;
+	}
+	return (err_code);
+}
+
 int	ft_color_to_int(char *line, t_map *map)
 {
 	int		rgb[3];
@@ -53,31 +77,20 @@ int	ft_color_to_int(char *line, t_map *map)
 
 	tmp = ft_split(&line[2], ',');
 	if (!tmp[0] || !tmp[1] || !tmp[2] || tmp[3])
+	{
+		ft_clean_2d_array(tmp);
 		error_exit("Error:\nThe color format isn't RGB\n", map);
-	i = -1;
-	while (++i < 3)
-		rgb[i] = ft_atoi(tmp[i]);
-	if (ft_check_rgb(rgb) == -1)
-		error_exit("Error:\nThe color format isn't RGB\n", map);
-	result = ft_combine_rgb(rgb[0], rgb[1], rgb[2]);
-	ft_clean_2d_array(tmp);
-	return (result);
-}
-
-int	ft_check_rgb(int rgb[3])
-{
-	int	i;
-
+	}
 	i = -1;
 	while (++i < 3)
 	{
-		if (rgb[i] < 0 || rgb[i] > 255)
-			return (-1);
+		if (ft_check_color_val_str(&(tmp[i][0]), &rgb[i]) < 0)
+		{
+			ft_clean_2d_array(tmp);
+			error_exit("Error:\ncorrupt color format\n", map);
+		}
 	}
-	return (0);
-}
-
-int	ft_combine_rgb(int r, int g, int b)
-{
-	return (255 << 24 | r << 16 | g << 8 | b);
+	result = ft_combine_rgb(rgb[0], rgb[1], rgb[2]);
+	ft_clean_2d_array(tmp);
+	return (result);
 }

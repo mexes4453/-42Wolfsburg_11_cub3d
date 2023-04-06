@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 19:55:21 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 23:35:46 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,14 @@ enum e_E_APP_EVENT{
 # define IMG_SZ_X_PLAYER (2)
 # define IMG_SZ_Y_PLAYER (2)
 # define WIN_TITLE_MAP ("cub3d_map")
+# define FILE_EXT_TEXTURE (".xpm")
+# define FILE_EXT_MAP (".cub")
+# define WHITESPACE_CHAR ("\t ")
 
 typedef struct s_map
 {
 	char	**map;
+	char	**file;
 	int		map_size_x;
 	int		map_size_y;
 	char	*no_texture;
@@ -138,14 +142,11 @@ typedef struct s_player
 	int		key_d;
 	int		key_left;
 	int		key_right;
-	t_img	*img;
-	t_img	*black_img;
 }			t_player;
 
 //Map var: win_sz_x, win_sz_y, px, py, *img, *black_background
 typedef struct s_app
 {
-	void		*win;
 	void		*win_3d;
 	void		*com;
 	int			rc;
@@ -154,9 +155,7 @@ typedef struct s_app
 	size_t		px;
 	size_t		py;
 	t_map		*map;
-	t_img		*img;
 	t_img		*main_img;
-	t_img		*black_backgroud;
 	t_img		*text_n;
 	t_img		*text_s;
 	t_img		*text_e;
@@ -205,14 +204,12 @@ void	ft_parsing_file(char **file, t_map *map);
 //read_map
 char	*ft_read(int fd);
 char	**ft_read_file(char *filename);
-int		ft_map_extension(char *filename);
 int		ft_read_map(char *filename, t_map *map);
 
 //set_map_info
 void	ft_set_texture(char *line, char **var_texture, t_map *map);
 void	ft_set_color(char *line, t_map *map);
 int		ft_color_to_int(char *line, t_map *map);
-int		ft_check_rgb(int rgb[3]);
 int		ft_combine_rgb(int r, int g, int b);
 
 //ft_utlis
@@ -237,7 +234,7 @@ int		ft_app_close(void *params);
 t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, \
 int szX, int szY);
 int		ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
-void	ft_player_init(t_player *p, t_map *m, t_app *app);
+void	ft_player_init(t_player *p, t_map *m);
 int		ft_key_pressed(int key, t_app *a);
 int		ft_key_released(int key, t_player *p);
 int		ft_player_move(t_app *a);
@@ -255,5 +252,6 @@ void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);
 void	ft_text_to_img(t_app *a);
 t_img	*ft_create_new_img(void *mlx_ptr);
 void	ft_free_img(void *mlx_ptr, t_img *img);
+void	ft_check_file_ext(char *filename, char *file_ext, t_map *m);
 
 #endif

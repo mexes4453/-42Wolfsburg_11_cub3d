@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:21:32 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 19:05:16 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 23:37:07 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	ft_clean_2d_array(char **array)
 
 void	ft_clean_parsing(t_map *map)
 {
+	if (map->file)
+		ft_clean_2d_array(map->file);
 	ft_clean_2d_array(map->map);
 	if (map->no_texture)
 		free (map->no_texture);

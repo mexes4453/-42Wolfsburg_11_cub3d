@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/07 01:43:38 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/07 01:47:44 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,6 @@ void	ft_app_var_init(t_app *a, t_map *m);
 int		ft_app_close(void *params);
 t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, \
 int szX, int szY);
-int		ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
 void	ft_player_init(t_player *p, t_map *m);
 int		ft_key_pressed(int key, t_app *a);
 int		ft_key_released(int key, t_player *p);

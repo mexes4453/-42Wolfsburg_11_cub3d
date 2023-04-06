@@ -6,7 +6,7 @@
 #    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/04/05 23:45:01 by fsemke           ###   ########.fr        #
+#    Updated: 2023/04/06 19:16:21 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ endif
 NAME = cub3D
 
 SRCS =	src/cub3d.c \
-		src/cleanup.c \
+		src/ft_cleanup.c \
 		src/check_map.c \
 		src/error.c \
 		src/ft_split_custom.c \
@@ -39,13 +39,11 @@ SRCS =	src/cub3d.c \
 		src/ft_app_var_init.c \
 		src/ft_app_display_map.c \
 		src/ft_player_init.c \
-		src/ft_draw_line.c \
 		src/ft_onKeyPress.c \
 		src/ft_player_move.c \
 		src/ft_key.c \
 		src/ft_ray_get_dist.c \
 		src/ft_render_wall.c  \
-		src/ft_free_img.c \
 		src/ft_render_img.c
 
 OBJS = $(SRCS:.c=.o)

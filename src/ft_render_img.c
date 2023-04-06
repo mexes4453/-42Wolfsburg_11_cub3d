@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 23:12:45 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 14:58:26 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 16:57:44 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,23 @@ static void	ft_print_map_ray(t_app *a, t_cmp_lines *rayline)
 {
 	t_line	line;
 
-	line.startPosX = (int)(a->player->Pos[origin][X] * IMG_SZ_X_WALL);
-	line.startPosY = (int)(a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
+	line.start_posx = (int)(a->player->pos[X] * IMG_SZ_X_WALL);
+	line.start_posy = (int)(a->player->pos[Y] * IMG_SZ_Y_WALL);
 	line.color = 0x0000FF00;
-	line.endPosX = rayline->coord_hit[X];
-	line.endPosY = rayline->coord_hit[Y];
+	line.end_posx = rayline->coord_hit[X];
+	line.end_posy = rayline->coord_hit[Y];
 	ft_draw_line(a->com, a->win, &line);
 }
 
 static void	ft_update_player_var(t_app *a, t_cmp_lines *rayline, int x)
 {
-	a->player->cameraX = 2 * x / (double)SCR_WIDTH_PX - 1;
-	a->player->rayDir[X] = a->player->dir[X] + a->player->plane[X] \
-	* a->player->cameraX;
-	a->player->rayDir[Y] = a->player->dir[Y] + a->player->plane[Y] \
-	* a->player->cameraX;
-	a->player->map_pos[X] = (int) a->player->Pos[origin][X];
-	a->player->map_pos[Y] = (int) a->player->Pos[origin][Y];
+	a->player->camerax = 2 * x / (double)SCR_WIDTH_PX - 1;
+	a->player->raydir[X] = a->player->dir[X] + a->player->plane[X] \
+	* a->player->camerax;
+	a->player->raydir[Y] = a->player->dir[Y] + a->player->plane[Y] \
+	* a->player->camerax;
+	a->player->map_pos[X] = (int) a->player->pos[X];
+	a->player->map_pos[Y] = (int) a->player->pos[Y];
 	ft_ray_get_dist(a, rayline);
 	ft_print_map_ray(a, rayline);
 }

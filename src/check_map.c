@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 14:55:43 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/16 12:32:38 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 16:49:22 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ void	ft_check_errors(t_map *map)
 {
 	char	**mapcopy;
 
-	if (ft_check_valid_file(map->NO_texture) == -1)
+	if (ft_check_valid_file(map->no_texture) == -1)
 		error_exit("Error\nCan't open North texture file\n", map);
-	if (ft_check_valid_file(map->EA_texture) == -1)
+	if (ft_check_valid_file(map->ea_texture) == -1)
 		error_exit("Error\nCan't open East texture file\n", map);
-	if (ft_check_valid_file(map->SO_texture) == -1)
+	if (ft_check_valid_file(map->so_texture) == -1)
 		error_exit("Error\nCan't open South texture file\n", map);
-	if (ft_check_valid_file(map->WE_texture) == -1)
+	if (ft_check_valid_file(map->we_texture) == -1)
 		error_exit("Error\nCan't open West texture file\n", map);
 	ft_check_map(map);
 	mapcopy = ft_copy_gamemap(map);

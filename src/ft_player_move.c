@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:05:49 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 14:46:19 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 16:51:39 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_player_move(t_app *a)
 	a->px = 0;
 	a->py = 0;
 	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, \
-	a->player->Pos[origin][X] * IMG_SZ_X_WALL, a->player->Pos[origin][Y] \
+	a->player->pos[X] * IMG_SZ_X_WALL, a->player->pos[Y] \
 	* IMG_SZ_Y_WALL);
 	return (0);
 }

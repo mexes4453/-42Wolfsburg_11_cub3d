@@ -18,10 +18,10 @@ int	ft_app_close(void *params)
 
 	a = (t_app *)params;
 	ft_printf("\nExiting application...\n");
-	ft_free_img(a->com, a->text_N);
-	ft_free_img(a->com, a->text_S);
-	ft_free_img(a->com, a->text_W);
-	ft_free_img(a->com, a->text_E);
+	ft_free_img(a->com, a->text_n);
+	ft_free_img(a->com, a->text_s);
+	ft_free_img(a->com, a->text_w);
+	ft_free_img(a->com, a->text_e);
 	ft_free_img(a->com, a->black_backgroud);
 	ft_free_img(a->com, a->player->black_img);
 	ft_free_img(a->com, a->player->img);

@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/21 20:47:56by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 17:13:25 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,17 @@
 
 # elif defined __unix__
 #  include "mlx_linux/mlx.h"
-/*
-#  define A_KEY 97
-#  define W_KEY 119
-#  define S_KEY 115
-#  define D_KEY 100
-#  define LEFT_KEY 65361
-#  define RIGHT_KEY 65363
-#  define ESC_KEY 65307
-#  define X_BTN 33
-*/
 
-enum e_KEYS
-{
-	KEY_ESC = 65307,
-	KEY_W = 119,
-	KEY_A = 97,
-	KEY_S = 115,
-	KEY_D = 100,
-	KEY_LEFT = 65361,
-	KEY_RIGHT = 65363,
-	KEY_APP_CLOSE_ICON = -16777904L
-};
+#  define KEY_A 97
+#  define KEY_W 119
+#  define KEY_S 115
+#  define KEY_D 100
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+#  define KEY_ESC 65307
+#  define X_BTN 33
+#  define KEY_APP_CLOSE_ICON -16777904L
+
 # endif
 
 enum e_E_APP_EVENT{
@@ -76,149 +65,116 @@ enum e_E_APP_EVENT{
 # define RADIENT 0.01745329 //Multiply with degree val will get radient
 # define X 0
 # define Y 1
-# define VERSION 2 //to calculate Raylines
 
-# define DIR_LENGTH 50
 # define RS 0.03 //Rotation Speed higher == faster
 # define MS 0.03 //Moving Speed higher == faster
-# define FOV 66 //in degree
 # define SCR_WIDTH_PX 800
 # define SCR_HEIGHT_PX 600
-//# define RAY_OFFSET_ANGLE  ((FOV / SCR_WIDTH_PX) * PI / 180.0f) // converted to radians
-//# define RAY_OFFSET_ANGLE  ((2) * PI / 180.0f) // converted to radians
-# define RAY_LINE_PX_WIDTH 5 //doesn't need anymore, because RayLine == SCR_WIDTH
 
 # define IMG_SZ_X_WALL (64)
 # define IMG_SZ_Y_WALL (64)
-# define IMG_SZ_X_PLAYER (2)
-# define IMG_SZ_Y_PLAYER (2)
 # define BIT_SIZE_BYTE (8)
-# define TRUE_DESTROY (1)
-# define FALSE_DESTROY (0)
-# define WIN_TITLE_MAP ("cub3d_map")
 # define WIN_TITLE_WORLD ("cub3d_world")
 
-
-
+// Map definitions
+# define IMG_SZ_X_PLAYER (2)
+# define IMG_SZ_Y_PLAYER (2)
+# define WIN_TITLE_MAP ("cub3d_map")
 
 typedef struct s_map
 {
-	char	**map; //freed in ft_clean_parsing()
+	char	**map;
 	int		map_size_x;
 	int		map_size_y;
-	char	*NO_texture; //freed in ft_clean_parsing()
-	char	*EA_texture; //freed in ft_clean_parsing()
-	char	*SO_texture; //freed in ft_clean_parsing()
-	char	*WE_texture; //freed in ft_clean_parsing()
+	char	*no_texture;
+	char	*ea_texture;
+	char	*so_texture;
+	char	*we_texture;
 	int		floor_c;
 	int		ceilling_c;
-	int		player_x; //Default -1
-	int		player_y; //Default -1
-	int		player_orientation; //Default -1
-	int     idx_x; // used to iterate within map arrays
-	int     idx_y; // used to iterate over arrays store in map ptr
-	char    chr;    // stores the char read from the map array
+	int		player_x;
+	int		player_y;
+	int		player_orientation;
+	int		idx_x;
+	int		idx_y;
+	char	chr;
 }	t_map;
 
+//bpp = bits_per_pixel
 typedef struct s_img
 {
 	void	*img_ref_ptr;
 	char	*addr;
-	int		bpp; //bits_per_pixel
+	int		bpp;
 	int		endian;
 	int		line_length;
 	int		sz_x;
 	int		sz_y;
 }			t_img;
 
-
-typedef enum e_pos
-{
-	origin,
-	dir_pos,
-	dir_neg,
-	dir,
-	//
-	MaxPos
-}	t_pos;
-
-
+//Used to print the raylines
 typedef struct s_line
 {
-	int startPosX;
-	int startPosY;
-	int endPosX;
-	int endPosY;
+	int		start_posx;
+	int		start_posy;
+	int		end_posx;
+	int		end_posy;
 	double	raylength;
-	int color;
+	int		color;
 }	t_line;
 
+//camerax pixel left = -1, mid = 0, right = 1
 typedef struct s_player
 {
-	double		Pos[4][2]; //We need only the origin?
-	double		heading_angle; //old angle
-	double		delta_x; //old vec pos?
-	double		delta_y; //old vec pos?
-	double		dir[2]; //vector direction player view
-	double		plane[2]; //vector camera plane
-	double		rayDir[2]; // vectorray
-	double		cameraX; //left side == -1, mid == 0, right == 1
-	int			map_pos[2];
-	int			key_w;
-	int			key_a;
-	int			key_s;
-	int			key_d;
-	int			key_left;
-	int			key_right;
-	t_img	    *img;
-	t_img	    *black_img;
+	double	pos[2];
+	double	dir[2];
+	double	plane[2];
+	double	raydir[2];
+	double	camerax;
+	int		map_pos[2];
+	int		key_w;
+	int		key_a;
+	int		key_s;
+	int		key_d;
+	int		key_left;
+	int		key_right;
+	t_img	*img;
+	t_img	*black_img;
 }			t_player;
 
-
-
+//Map var: win_sz_x, win_sz_y, px, py, *img, *black_background
 typedef struct s_app
 {
 	void		*win;
 	void		*win_3d;
 	void		*com;
 	int			rc;
-	int			win_sz_x; //Map
-	int			win_sz_y; //Map
-	size_t		px; //using only in Map
-	size_t		py; //using only in Map
+	int			win_sz_x;
+	int			win_sz_y;
+	size_t		px;
+	size_t		py;
 	t_map		*map;
-	t_img		*img; //Map image
-	t_img		*main_img; //img 3D window
-	t_img		*black_backgroud; //Map
-	t_img		*text_N;
-	t_img		*text_S;
-	t_img		*text_E;
-	t_img		*text_W;
+	t_img		*img;
+	t_img		*main_img;
+	t_img		*black_backgroud;
+	t_img		*text_n;
+	t_img		*text_s;
+	t_img		*text_e;
+	t_img		*text_w;
 	t_img		*texture;
 	t_player	*player;
-	double 		*raylengths;
-	int			nbr_of_rays; // == SCR_WIDTH_PX
-	t_img		*wall;
- //   t_player	p;
-//	t_queue		*rq;
-//	t_queue		*cq;
-//	char		**matrix;
-//	int			t_r;
-//	int			t_c;
-//	int			p_r;
-//	int			p_c;
+	double		*raylengths;
 }				t_app;
 
+//Map var: coord_hit
 typedef struct s_cmp_lines
 {
-	double	raylength; //dont use
-	double	perpWallDist;
+	double	perp_w_dist;
 	int		side;
 	int		pole;
 	double	wall_x;
 	int		text_x;
-	int		wall_y; //dont use
-	double	coord_hit[2]; //Need for map
+	double	coord_hit[2];
 }	t_cmp_lines;
 
 typedef enum e_coord
@@ -267,10 +223,6 @@ char	*ft_strdup_up_to_space(const char *s);
 int		ft_check_valid_file(char *file);
 void	ft_check_errors(t_map *map);
 
-
-
-
-
 /**
  * @brief 
  * This function initialises the app variable to default value.
@@ -281,26 +233,22 @@ void	ft_check_errors(t_map *map);
  * @param m // pointer to map variable
  */
 void	ft_app_var_init(t_app *a, t_map *m);
-int     ft_app_close(void *params);
-t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, int szX, int szY);
-int     ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
-void    ft_player_init(t_player *p, t_map *m, t_app *app);
+int		ft_app_close(void *params);
+t_img	*ft_img_create_color_img(void *mlxPtr, uint32_t color, \
+int szX, int szY);
+int		ft_app_display_map(t_app *a, t_map *m, char *S, t_img *i);
+void	ft_player_init(t_player *p, t_map *m, t_app *app);
 int		ft_key_pressed(int key, t_app *a);
 int		ft_key_released(int key, t_player *p);
 int		ft_player_move(t_app *a);
 int		ft_player_angle(t_app *a);
 int		ft_loop_player(t_app *app);
-void    ft_draw_line(void *mlx, void *win, t_line *line);
-
+void	ft_draw_line(void *mlx, void *win, t_line *line);
 void	ft_on_key_press_w(t_app *a);
 void	ft_on_key_press_a(t_app *a);
 void	ft_on_key_press_s(t_app *a);
 void	ft_on_key_press_d(t_app *a);
-
-
-// ray casting
-void    ft_ray_get_dist(t_app *a, t_cmp_lines *line);
-
+void	ft_ray_get_dist(t_app *a, t_cmp_lines *line);
 void	ft_render_wall(t_app *a, t_cmp_lines *l, int i);
 void	ft_render_img(t_app *a);
 void	ft_app_pixel_put_on_img(t_img *data, int x, int y, uint32_t color);

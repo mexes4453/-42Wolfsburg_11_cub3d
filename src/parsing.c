@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:22:59 by fsemke            #+#    #+#             */
-/*   Updated: 2023/03/18 19:51:15 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 16:49:22 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	ft_set_spawn(t_map *map, int x, int y)
 void	ft_parse_infos(char *line, t_map *map)
 {
 	if (line[0] == 'N' && line[1] == 'O')
-		ft_set_texture(line, &map->NO_texture, map);
+		ft_set_texture(line, &map->no_texture, map);
 	else if (line[0] == 'E' && line[1] == 'A')
-		ft_set_texture(line, &map->EA_texture, map);
+		ft_set_texture(line, &map->ea_texture, map);
 	else if (line[0] == 'S' && line[1] == 'O')
-		ft_set_texture(line, &map->SO_texture, map);
+		ft_set_texture(line, &map->so_texture, map);
 	else if (line[0] == 'W' && line[1] == 'E')
-		ft_set_texture(line, &map->WE_texture, map);
+		ft_set_texture(line, &map->we_texture, map);
 	else if ((line[0] == 'F' || line[0] == 'C'))
 		ft_set_color(line, map);
 	else if (line[0] == '\n' || line[0] == '\0')
@@ -101,8 +101,8 @@ void	ft_parsing_file(char **file, t_map *map)
 	{
 		ft_parse_infos(file[i], map);
 		++i;
-		if (map->NO_texture && map->EA_texture && map->SO_texture
-			&& map->WE_texture && map->floor_c != 0 && map->ceilling_c != 0)
+		if (map->no_texture && map->ea_texture && map->so_texture
+			&& map->we_texture && map->floor_c != 0 && map->ceilling_c != 0)
 			break ;
 	}
 	while (file[i] && ft_line_empty(file[i]) == 1)

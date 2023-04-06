@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 09:53:10 by cudoh             #+#    #+#             */
-/*   Updated: 2023/04/05 23:39:53 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 17:34:25 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,4 @@ void	ft_app_var_init(t_app *a, t_map *m)
 	a->img = NULL;
 	a->px = 0;
 	a->py = 0;
-	a->nbr_of_rays = SCR_WIDTH_PX;
 }

@@ -6,44 +6,36 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/21 20:43:21 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/05 22:57:34 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 14:42:50 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 /*
- * This function can be deleted at the end
+ * This function draw a rayline to our map
+ * pixels = number of pixels we’ll have to draw
  */
-void    ft_draw_line(void *mlx, void *win, t_line *line)
+void	ft_draw_line(void *mlx, void *win, t_line *line)
 {
-	double	deltaX;
-	double	deltaY;
-	double	pixelX;
-	double	pixelY;
+	double	deltax;
+	double	deltay;
+	double	pixelx;
+	double	pixely;
+	int		pixels;
 
-	deltaX = line->endPosX - line->startPosX;
-	deltaY = line->endPosY - line->startPosY;
-	pixelX = line->startPosX;
-	pixelY = line->startPosY;
-
-	//From this, we can approximate the number of pixels we’ll have to draw along the way.
-
-	int pixels = sqrt((deltaX * deltaX) + (deltaY * deltaY));
-	//  pixels = sqrt((10 * 10) + (0 * 0)) = sqrt(100) = 10
-
-	//The reason why we used double was so we can divide the total distance of our line by the amount of pixels we’ll have to draw.
-
-	deltaX /= pixels; // 1
-	deltaY /= pixels; // 0
-
-	//So we can finally start plotting the line with a very simple loop:
-	
+	deltax = line->endPosX - line->startPosX;
+	deltay = line->endPosY - line->startPosY;
+	pixelx = line->startPosX;
+	pixely = line->startPosY;
+	pixels = sqrt((deltax * deltax) + (deltay * deltay));
+	deltax /= pixels;
+	deltay /= pixels;
 	while (pixels)
 	{
-		mlx_pixel_put(mlx, win, pixelX, pixelY, line->color);
-		pixelX += deltaX;
-		pixelY += deltaY;
+		mlx_pixel_put(mlx, win, pixelx, pixely, line->color);
+		pixelx += deltax;
+		pixely += deltay;
 		--pixels;
 	}
 }

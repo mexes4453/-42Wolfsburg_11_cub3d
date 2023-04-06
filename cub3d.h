@@ -138,7 +138,7 @@ typedef enum e_pos
 	dir_pos,
 	dir_neg,
 	dir,
-	/*-----*/
+	//
 	MaxPos
 }	t_pos;
 
@@ -172,12 +172,6 @@ typedef struct s_player
 	int			key_right;
 	t_img	    *img;
 	t_img	    *black_img;
-
-	//t_img	    *img_dir;
-	/*
-	t_img	    *img_dir_neg;
-	t_img	    *
-	*/
 }			t_player;
 
 

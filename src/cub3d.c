@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/05 23:41:55 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 14:53:00 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,19 @@ void	ft_text_to_img(t_app *a)
 	&(a->text_E->bpp), &(a->text_E->line_length), &(a->text_E->endian));
 }
 
+/*
+ * Map stuff only
+ */
+static void	ft_init_map_stuff(t_app *a)
+{
+	a->com = mlx_init();
+	a->win = mlx_new_window(a->com, a->win_sz_x, a->win_sz_y, WIN_TITLE_MAP);
+	a->img = ft_img_create_color_img(a->com, 0x00FFFFBB, IMG_SZ_X_WALL, \
+	IMG_SZ_Y_WALL);
+	a->black_backgroud = ft_img_create_color_img(a->com, 0x00000000, \
+	a->win_sz_x, a->win_sz_y);
+}
+
 int	main(int argc, char **argv)
 {
 	t_map		map;
@@ -69,14 +82,9 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	ft_init(argv, &map, &app);
-	// create player map
-	{
-	app.com = mlx_init();
-	app.win = mlx_new_window(app.com, app.win_sz_x, app.win_sz_y, WIN_TITLE_MAP);
-	app.img = ft_img_create_color_img(app.com, 0x00FFFFBB, IMG_SZ_X_WALL, IMG_SZ_Y_WALL);
-	app.black_backgroud = ft_img_create_color_img(app.com, 0x00000000, app.win_sz_x, app.win_sz_y);
-	}
-	app.win_3d = mlx_new_window(app.com, SCR_WIDTH_PX, SCR_HEIGHT_PX, WIN_TITLE_WORLD);
+	ft_init_map_stuff(&app);
+	app.win_3d = mlx_new_window(app.com, SCR_WIDTH_PX, SCR_HEIGHT_PX, \
+	WIN_TITLE_WORLD);
 	ft_text_to_img(&app);
 	ft_player_init(&player, &map, &app);
 	app.player = &player;

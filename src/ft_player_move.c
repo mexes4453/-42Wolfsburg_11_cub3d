@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:05:49 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/05 23:13:13 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 14:46:19 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ t_img	*ft_create_new_img(void *mlx_ptr)
 	return (img);
 }
 
+/*
+ * All the calculations starting after 
+ * the keypress-functions are for the map only
+ *
+ */
 int	ft_player_move(t_app *a)
 {
 	if (a->player->key_w)
@@ -35,17 +40,14 @@ int	ft_player_move(t_app *a)
 		ft_on_key_press_s(a);
 	if (a->player->key_d)
 		ft_on_key_press_d(a);
-	//Map stuff
-	{
-		//overwrite everything on the map with black
-		mlx_put_image_to_window(a->com, a->win, a->black_backgroud->img_ref_ptr, 0, 0);
-		ft_app_display_map(a, a->map, "1", a->img);
-		a->px = 0;
-		a->py = 0;
-		//print new player position on map
-		mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, \
-		a->player->Pos[origin][X] * IMG_SZ_X_WALL, a->player->Pos[origin][Y] * IMG_SZ_Y_WALL);
-	}
+	mlx_put_image_to_window(a->com, a->win, \
+	a->black_backgroud->img_ref_ptr, 0, 0);
+	ft_app_display_map(a, a->map, "1", a->img);
+	a->px = 0;
+	a->py = 0;
+	mlx_put_image_to_window(a->com, a->win, a->player->img->img_ref_ptr, \
+	a->player->Pos[origin][X] * IMG_SZ_X_WALL, a->player->Pos[origin][Y] \
+	* IMG_SZ_Y_WALL);
 	return (0);
 }
 

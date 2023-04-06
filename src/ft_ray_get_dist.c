@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 20:10:07 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/05 23:47:57 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 14:56:52 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	ft_calc_more_stuff(t_player *p, double (*c)[2][2], int (*step)[2])
  * it also checks if a ray hits a wall facing east or west
  * 		a->player->rayDir[X] < 0) 
  */
-static void	ft_calc_perpendicular_dist(t_app *a, t_cmp_lines *line, int (*step)[2])
+static void	ft_calc_perp_dist(t_app *a, t_cmp_lines *line, int (*step)[2])
 {
 	if (line->side == 0)
 	{
@@ -131,6 +131,6 @@ void	ft_ray_get_dist(t_app *a, t_cmp_lines *line)
 		if (a->map->map[a->player->map_pos[Y]][a->player->map_pos[X]] == '1')
 			hit = 1;
 	}
-	ft_calc_perpendicular_dist(a, line, &step);
+	ft_calc_perp_dist(a, line, &step);
 	ft_get_texture_xpos(a, line);
 }

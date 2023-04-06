@@ -1,7 +1,7 @@
-NO /home/florian/coding/my_cub3d_git/textures/BRICK_1A.xpm
-SO /home/florian/coding/my_cub3d_git/textures/BRICK_4A.xpm
-WE /home/florian/coding/my_cub3d_git/textures/SUPPORT_1A.xpm
-EA /home/florian/coding/my_cub3d_git/textures/BRICK_4D.xpm
+NO textures/BRICK_1A.xpm
+SO textures/BRICK_4A.xpm
+WE textures/SUPPORT_1A.xpm
+EA textures/BRICK_4D.xpm
 
 
 F    100  ,  100   ,   100

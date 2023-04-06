@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 17:13:25 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/06 19:55:21 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 
 # ifdef __APPLE__
 #  include "mlx_darwin/mlx.h"
-#  define A_KEY 0
-#  define W_KEY 13
-#  define S_KEY 1
-#  define D_KEY 2
-#  define LEFT_KEY 123
-#  define RIGHT_KEY 124
-#  define ESC_KEY 53
+#  define KEY_A 0
+#  define KEY_W 13
+#  define KEY_S 1
+#  define KEY_D 2
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_ESC 53
 #  define X_BTN 17
 
 # elif defined __unix__
@@ -42,7 +42,7 @@
 #  define KEY_RIGHT 65363
 #  define KEY_ESC 65307
 #  define X_BTN 33
-#  define KEY_APP_CLOSE_ICON -16777904L
+//#  define KEY_APP_CLOSE_ICON -16777904L
 
 # endif
 

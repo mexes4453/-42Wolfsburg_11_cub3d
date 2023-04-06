@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/06 23:35:46 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/07 01:43:38 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ enum e_E_APP_EVENT{
 
 # define RS 0.03 //Rotation Speed higher == faster
 # define MS 0.03 //Moving Speed higher == faster
+# define GAP 0.25
 # define SCR_WIDTH_PX 800
 # define SCR_HEIGHT_PX 600
 

@@ -6,7 +6,7 @@
 /*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 17:27:18 by cudoh             #+#    #+#             */
-/*   Updated: 2023/04/02 11:23:50 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/04/02 22:49:05 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void ft_player_init(t_player *p, t_map *m, t_app *app)
     
     
     if (m->player_orientation == NORTH)
-        p->heading_angle = PI * 0.5;
+        p->heading_angle = PI * 1.5;
     else if(m->player_orientation == WEST)
         p->heading_angle = PI;
     else if(m->player_orientation == SOUTH)
-        p->heading_angle = PI * 1.5;
+        p->heading_angle = PI * 0.5;
     else if(m->player_orientation == EAST)
         p->heading_angle = 0;
 
@@ -96,8 +96,8 @@ int    ft_key_pressed(int key, t_app *a)
         //a->player->key_w = 1;
     else if (key == KEY_A)
     {
-        a->player->Pos[next][X] = a->player->Pos[origin][X] - a->player->delta_x;
-        a->player->Pos[next][Y] = a->player->Pos[origin][Y] + a->player->delta_y;
+        a->player->Pos[next][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle - (PI/2)) * PX_MOVE);
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] + (sin(a->player->heading_angle - (PI/2)) * PX_MOVE);
     }
         //a->player->key_a = 1;
     else if (key == KEY_S)
@@ -108,8 +108,8 @@ int    ft_key_pressed(int key, t_app *a)
     //    a->player->key_s = 1;
     else if (key == KEY_D)
     {
-        a->player->Pos[next][X] = a->player->Pos[origin][X] + a->player->delta_x;
-        a->player->Pos[next][Y] = a->player->Pos[origin][Y] - a->player->delta_y;
+        a->player->Pos[next][X] = a->player->Pos[origin][X] + (cos(a->player->heading_angle + (PI/2)) * PX_MOVE);
+        a->player->Pos[next][Y] = a->player->Pos[origin][Y] + (sin(a->player->heading_angle + (PI/2)) * PX_MOVE);
     }
     //   a->player->key_d = 1;
     else if (key == KEY_LEFT)
@@ -141,6 +141,12 @@ int    ft_key_pressed(int key, t_app *a)
     {
         printf("New Button %d pressed\n", key);
         printf("heading: %f\n", a->player->heading_angle);
+        printf("posx: %f, posy: %f\n", a->player->Pos[origin][X], a->player->Pos[origin][Y]);
+
+        printf("my: %d\n", a->ray->my);
+        printf("mx: %d\n", a->ray->mx);
+        printf("dof: %d\n", a->ray->dof);
+        printf("rx: %f, ry: %f\n", a->ray->rx, a->ray->ry);
     }
     return (0);
 }
@@ -309,7 +315,8 @@ int ft_player_angle(int key, t_app *a)
 
 int ft_loop_player(t_app *app)
 {
-    ft_player_angle(0, app);
+    //ft_player_angle(0, app);
+    ft_draw_rays(app);
 	ft_player_move(app);
     return (0);
 }

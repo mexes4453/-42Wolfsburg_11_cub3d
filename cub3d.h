@@ -82,15 +82,15 @@ enum e_KEYS
 
 # define IMG_SZ_X_WALL (50)
 # define IMG_SZ_Y_WALL (50)
-# define IMG_SZ_X_PLAYER (4)
-# define IMG_SZ_Y_PLAYER (4)
+# define IMG_SZ_X_PLAYER (2)
+# define IMG_SZ_Y_PLAYER (2)
 # define BIT_SIZE_BYTE (8)
 # define TRUE_DESTROY (1)
 # define FALSE_DESTROY (0)
 # define WIN_TITLE_MAP ("cub3d_map")
 # define COL_PLAYER (0x00FFFF00)        // YELLOW
 # define COL_BLACK (0x00000000)        // BLACK
-# define PX_MOVE (2)
+# define PX_MOVE (5)
 # define ROTATE_ANGLE_OFFSET (0.1)
 
 
@@ -148,6 +148,24 @@ typedef struct s_line
 	int color;
 }	t_line;
 
+typedef struct s_ray
+{
+    int r;
+    int mx;
+    int my;
+    int mp;
+    int dof;
+    int rlen_max;
+    float rx;
+    float ry;
+    float ra;
+    float xo;
+    float yo;
+    float aTan;
+    t_line  *rayline;
+}   t_ray;
+
+
 typedef struct s_player
 {
 	double		Pos[MaxPos][2];
@@ -186,6 +204,7 @@ typedef struct s_app
 	t_map		*map;
 	t_img		*img;
 	t_player	*player;
+    t_ray       *ray;
  //   t_player	p;
 //	t_queue		*rq;
 //	t_queue		*cq;
@@ -269,5 +288,6 @@ void    ft_draw_line(void *mlx, void *win, t_line *line);
 
 /* new functions */
 void ft_draw_player(t_app *a);
+void ft_draw_rays(t_app *a);
 
 #endif

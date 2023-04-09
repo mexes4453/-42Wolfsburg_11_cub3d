@@ -6,7 +6,7 @@
 /*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/02 10:34:30 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/04/02 15:46:58 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int	main(int argc, char **argv)
     t_img       *wall_img;
     t_player    player;
     t_line      img_line;
+    t_ray       ray;
+    t_line      ray_line;
+    ray.rayline = &ray_line;
 	//t_mlx	mlx;
 
 	if (argc != 2)
@@ -89,6 +92,7 @@ int	main(int argc, char **argv)
     img_line.color = COL_PLAYER;
     player.headline = &img_line;
 	app.player = &player;
+    app.ray = &ray;
     //ft_app_display_img(&app, &(app.img), FALSE_DESTROY);
     // loop
     ft_app_display_map(&app, &map, "1", wall_img);

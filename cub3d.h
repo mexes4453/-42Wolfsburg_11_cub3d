@@ -6,7 +6,7 @@
 /*   By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:57 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/07 01:47:44 by fsemke           ###   ########.fr       */
+/*   Updated: 2023/04/11 19:13:31 by fsemke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 #  define KEY_RIGHT 65363
 #  define KEY_ESC 65307
 #  define X_BTN 33
-//#  define KEY_APP_CLOSE_ICON -16777904L
 
 # endif
 
@@ -76,11 +75,6 @@ enum e_E_APP_EVENT{
 # define IMG_SZ_Y_WALL (64)
 # define BIT_SIZE_BYTE (8)
 # define WIN_TITLE_WORLD ("cub3d_world")
-
-// Map definitions
-# define IMG_SZ_X_PLAYER (2)
-# define IMG_SZ_Y_PLAYER (2)
-# define WIN_TITLE_MAP ("cub3d_map")
 # define FILE_EXT_TEXTURE (".xpm")
 # define FILE_EXT_MAP (".cub")
 # define WHITESPACE_CHAR ("\t ")

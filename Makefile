@@ -6,7 +6,7 @@
 #    By: fsemke <fsemke@student.42wolfsburg.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/04/06 22:02:25 by fsemke           ###   ########.fr        #
+#    Updated: 2023/04/11 18:39:31 by fsemke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,13 @@ NAME = cub3D
 
 SRCS =	src/cub3d.c \
 		src/ft_cleanup.c \
-		src/check_map.c \
-		src/error.c \
+		src/ft_check_map.c \
+		src/ft_error.c \
 		src/ft_split_custom.c \
 		src/ft_utils.c \
-		src/parsing.c \
-		src/read_map.c \
-		src/set_map_info.c  \
+		src/ft_parsing.c \
+		src/ft_read_map.c \
+		src/ft_set_map_info.c  \
 		src/ft_app_close.c \
 		src/ft_img_create_color_img.c \
 		src/ft_app_var_init.c \

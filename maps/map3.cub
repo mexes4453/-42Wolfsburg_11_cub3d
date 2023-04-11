@@ -1,7 +1,7 @@
-NO ./textures/test
-SO ./textures/test
-WE ./textures/test
-EA ./textures/test
+WE textures/SUPPORT_1A.xpm
+NO textures/BRICK_1A.xpm
+SO textures/BRICK_4A.xpm
+EA textures/BRICK_4D.xpm
 
 F 220,100,0
 C 225,30,0
@@ -13,7 +13,7 @@ C 225,30,0
 1000011111101   101
 1000000000001   101
 1111111111111   101
-     101        101
-1111110111111111101
+101   101        101
+1011110111111111101
 1000000000000000001
 1111111111111111111

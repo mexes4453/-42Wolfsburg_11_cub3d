@@ -93,9 +93,36 @@ enum e_KEYS
 # define PX_MOVE (5)
 # define ROTATE_ANGLE_OFFSET (0.1)
 
+/* Error code definition */
+typedef enum e_err_code
+{
+    err_null_ptr = -127,
+    err_invalid_idx,        
+    err_ok = 0
+
+}   t_err_code;
+
+/* Function types definition */
+typedef t_err_code (*func)(void *);
+
+typedef struct ss_map
+{
+    int ptr[10][10];
+    int size_x;
+    int size_y;
+    func print;
+
+}   tt_map;
 
 
 
+
+
+
+
+
+
+// ----------------------------------------------------------------//
 typedef struct s_map
 {
 	char	**map; //freed in ft_clean_parsing()
@@ -289,5 +316,8 @@ void    ft_draw_line(void *mlx, void *win, t_line *line);
 /* new functions */
 void ft_draw_player(t_app *a);
 void ft_draw_rays(t_app *a);
+/* map */
+t_err_code ft_map_init(tt_map *m, int map_array[10][10], int x, int y);
+t_err_code ft_map_print(void *m);
 
 #endif

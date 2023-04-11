@@ -6,7 +6,7 @@
 #    By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/06 14:49:13 by fsemke            #+#    #+#              #
-#    Updated: 2023/04/02 13:40:29 by cudoh            ###   ########.fr        #
+#    Updated: 2023/04/10 21:39:21 by cudoh            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ SRCS =	src/cub3d.c \
 		src/ft_player_init.c \
 		src/ft_draw_line.c \
 		src/ft_draw_player.c \
-		src/ft_draw_rays.c
+		src/ft_draw_rays.c \
+		src/ft_map_init.c \
+		src/ft_map_print.c \
 
 OBJS = $(SRCS:.c=.o)
 

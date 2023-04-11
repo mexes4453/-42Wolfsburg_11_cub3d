@@ -6,7 +6,7 @@
 /*   By: cudoh <cudoh@student.42wolfsburg.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 18:08:44 by fsemke            #+#    #+#             */
-/*   Updated: 2023/04/02 15:46:58 by cudoh            ###   ########.fr       */
+/*   Updated: 2023/04/11 07:05:21 by cudoh            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,26 @@ void	ft_init(char **argv, t_map *map)
 	ft_print_all_information(map);
 }
 
-int	main(int argc, char **argv)
+
+
+
+int g_map[10][10] = {
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 1, 1, 0, 1, 1, 1, 0, 1},
+    {1, 0, 1, 1, 0, 0, 0, 0, 0, 1},
+    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
+    {1, 0, 1, 1, 0, 1, 0, 1, 0, 1},
+    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1},
+    {1, 0, 0, 0, 0, 1, 0, 1, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+//int	main(int argc, char **argv)
+int	main(void)
 {
+#if 0
 	t_map	    map;
     t_app	    app;
     t_img       *wall_img;
@@ -63,6 +81,16 @@ int	main(int argc, char **argv)
     t_ray       ray;
     t_line      ray_line;
     ray.rayline = &ray_line;
+    
+#endif
+    //___new initialisation
+    tt_map  mapp;
+    ft_map_init(&mapp, g_map, 10, 10);
+
+
+    
+    mapp.print((void *)&mapp);
+#if 0
 	//t_mlx	mlx;
 
 	if (argc != 2)
@@ -114,4 +142,6 @@ int	main(int argc, char **argv)
 	//mlx_hook(app.win, ON_KEYUP, 2, ft_key_released, &player);
 	mlx_loop_hook(app.com, ft_loop_player, &app);
 	mlx_loop(app.com);
+#endif 
+    return (0);
 }
